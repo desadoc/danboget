@@ -10,12 +10,18 @@ class SearchForm extends Component {
     super(props);
 
     this.state = {
-      query: '',
-      limit: 20
+      query: props.query,
+      limit: props.limit
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      query: nextProps.query,
+      limit: nextProps.limit
+    });
   }
   handleSubmit() {
     this.props.onSubmit({

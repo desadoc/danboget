@@ -1,37 +1,65 @@
 import React, { Component } from 'react';
 import './style/Search.css';
 
-import SearchForm from './SearchForm';
-import ImageResult from './components/ImageResult';
-import Button from './components/Button';
+import SearchForm   from './SearchForm';
+import ImageResult  from './components/ImageResult';
+import Button       from './components/Button';
 
 let danbooru = require('./lib/danbooru');
+let utils    = require('./lib/utils');
 
 class Search extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      pages: [],
-      currPage: 0,
-      pageSize: 20,
-      query: null
-    };
+    this.state = this.createState(props.location.search);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.nextPage = this.nextPage.bind(this);
   }
-  handleSubmit(params) {
-    let query = params.query;
-    let limit = params.limit;
+  componentDidMount() {
+    this.doQuery();
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState(
+      this.createState(nextProps.location.search),
+      () => {
+        setTimeout(() => { this.doQuery(); });
+      }
+    );
+  }
+  createState(queryStr) {
+    let params = utils.parseQueryString(queryStr);
 
-    this.fetchPage(0, query, limit)
+    return {
+      pages: [],
+      currPage: (params.page  != null) ? parseInt(params.page, 10) : 0,
+      pageSize: (params.limit != null) ? parseInt(params.limit, 10) : 20,
+      query:    params.query.replace('+', ' ')
+    }
+  }
+  handleSubmit(params) {
+    this.props.history.push(
+      '/search?' + utils.stringifyQueryParams({
+        query: params.query.replace(' ', '+'),
+        limit: params.limit,
+        page: 0
+      })
+    );
+  }
+  doQuery() {
+    if (this.state.query == null)
+      return;
+
+    this.fetchPage(
+      this.state.currPage,
+      this.state.query,
+      this.state.pageSize
+    )
     .then(res => {
-      this.setState({
-        pages: [res],
-        currPage: 0,
-        pageSize: limit,
-        query: query
+      this.setState(prevState => {
+        prevState.pages[prevState.currPage] = res;
+        return prevState;
       });
     })
     .catch(err => {
@@ -48,21 +76,13 @@ class Search extends Component {
     });
   }
   nextPage() {
-    this.fetchPage(
-      this.state.currPage + 1,
-      this.state.query,
-      this.state.pageSize
-    )
-    .then(res => {
-      this.setState(prevState => {
-        prevState.pages.push(res);
-        prevState.currPage++;
-        return prevState;
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    this.props.history.push(
+      '/search?' + utils.stringifyQueryParams({
+        query: this.state.query.replace(' ', '+'),
+        limit: this.state.pageSize,
+        page: this.state.currPage + 1
+      })
+    );
   }
   render() {
     let resultEls = [];
@@ -82,7 +102,8 @@ class Search extends Component {
 
     return (
       <div className="Search">
-        <SearchForm onSubmit={this.handleSubmit} />
+        <SearchForm query={this.state.query}
+          limit={this.state.pageSize} onSubmit={this.handleSubmit} />
         {resultEls}
         { (this.state.query != null) &&
             <Button onClick={this.nextPage}>Next Page</Button> }

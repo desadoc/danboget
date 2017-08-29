@@ -42,7 +42,7 @@ class App extends Component {
     let settings = this.state.settings;
 
     let SearchWProps = (props) =>
-      <Search login={settings.login} apikey={settings.apikey} />;
+      <Search login={settings.login} apikey={settings.apikey} {...props} />;
     let SettingsWProps = (props) =>
       <Settings values={settings} onSubmit={this.handleSettingsSubmit} />;
 
