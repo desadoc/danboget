@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import './style/Search.css';
 
-import SearchForm   from './SearchForm';
-import ImageResult  from './components/ImageResult';
-import Button       from './components/Button';
+import SearchForm     from './SearchForm';
+import SearchResults  from './SearchResults';
 
-let danbooru = require('./lib/danbooru');
 let utils    = require('./lib/utils');
 
 class Search extends Component {
@@ -14,99 +12,48 @@ class Search extends Component {
 
     this.state = this.createState(props.location.search);
 
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.nextPage = this.nextPage.bind(this);
-  }
-  componentDidMount() {
-    this.doQuery();
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handleNextPageClick = this.handleNextPageClick.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    this.setState(
-      this.createState(nextProps.location.search),
-      () => {
-        setTimeout(() => { this.doQuery(); });
-      }
-    );
+    this.setState(this.createState(nextProps.location.search));
   }
   createState(queryStr) {
     let params = utils.parseQueryString(queryStr);
 
     return {
-      pages: [],
-      currPage: (params.page  != null) ? parseInt(params.page, 10) : 0,
-      pageSize: (params.limit != null) ? parseInt(params.limit, 10) : 20,
-      query:    params.query.replace('+', ' ')
+      page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
+      limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
+      query: (params.query != null) ? params.query.replace(/\+/g, ' '): null
     }
   }
-  handleSubmit(params) {
+  handleSearchSubmit(params) {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
-        query: params.query.replace(' ', '+'),
+        query: params.query.replace(/ /g, '+'),
         limit: params.limit,
         page: 0
       })
     );
   }
-  doQuery() {
-    if (this.state.query == null)
-      return;
-
-    this.fetchPage(
-      this.state.currPage,
-      this.state.query,
-      this.state.pageSize
-    )
-    .then(res => {
-      this.setState(prevState => {
-        prevState.pages[prevState.currPage] = res;
-        return prevState;
-      });
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
-  fetchPage(index, query, limit) {
-    return danbooru.posts({
-      login: this.props.login,
-      apikey: this.props.apikey,
-      tags: query,
-      quantity: limit,
-      offset: index * limit
-    });
-  }
-  nextPage() {
+  handleNextPageClick() {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
-        query: this.state.query.replace(' ', '+'),
-        limit: this.state.pageSize,
-        page: this.state.currPage + 1
+        query: this.state.query.replace(/ /g, '+'),
+        limit: this.state.limit,
+        page: this.state.page + 1
       })
     );
   }
   render() {
-    let resultEls = [];
-
-    if (this.state.currPage !== null) {
-      let results = this.state.pages[this.state.currPage];
-
-      if (results) {
-        for (let i=0; i<results.length; i++) {
-          let result = results[i];
-          resultEls.push(
-            <ImageResult key={result.id} src={result.complete_preview_url} />
-          );
-        }
-      }
-    }
-
     return (
       <div className="Search">
         <SearchForm query={this.state.query}
-          limit={this.state.pageSize} onSubmit={this.handleSubmit} />
-        {resultEls}
-        { (this.state.query != null) &&
-            <Button onClick={this.nextPage}>Next Page</Button> }
+          limit={this.state.limit} onSubmit={this.handleSearchSubmit} />
+        <SearchResults onNextPageClick={this.handleNextPageClick}
+          login={this.props.login} apikey={this.props.apikey}
+          query={this.state.query} limit={this.state.limit}
+          page={this.state.page} />
       </div>
     );
   }

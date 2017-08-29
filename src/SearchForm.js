@@ -10,7 +10,7 @@ class SearchForm extends Component {
     super(props);
 
     this.state = {
-      query: props.query,
+      query: props.query || '',
       limit: props.limit
     };
 
@@ -19,7 +19,7 @@ class SearchForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      query: nextProps.query,
+      query: nextProps.query || '',
       limit: nextProps.limit
     });
   }
