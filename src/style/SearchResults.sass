@@ -1,0 +1,53 @@
+
+@import 'Defs.sass';
+
+.search-results
+  padding: 1em 0
+
+.search-results-items
+  display: flex
+  flex-flow: wrap
+
+.search-results-items .item
+  flex-basis: 18%
+  flex-grow: 0
+  justify-content: flex-start
+  max-width: 18%
+  height: 180px
+  overflow: hidden
+  margin: 0.5em 1%
+  border: 3px solid $default_grey
+
+.search-results-items .item
+  &.pending
+    border-color: $default_blue
+    &.parent
+      border-color: $default_blue $default_green $default_green $default_blue
+    &.child
+      border-color: $default_blue $default_gold $default_gold $default_blue
+  &.parent
+    border-color: $default_green
+  &.child
+    border-color: $default_gold
+  &.deleted
+    border-color: $default_red
+
+.search-results-items .item:hover
+  border-color: $highlight_grey
+
+.search-results-items .item:hover
+  &.pending
+    border-color: $highlight_blue
+    &.parent
+      border-color: $highlight_blue $highlight_green $highlight_green $highlight_blue
+    &.child
+      border-color: $highlight_blue $highlight_gold $highlight_gold $highlight_blue
+  &.parent
+    border-color: $highlight_green
+  &.child
+    border-color: $highlight_gold
+  &.deleted
+    border-color: $highlight_red
+
+.search-results-item-image
+  margin: 12px auto

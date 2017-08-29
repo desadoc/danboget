@@ -1,0 +1,54 @@
+.search-results {
+  padding: 1em 0; }
+
+.search-results-items {
+  display: flex;
+  flex-flow: wrap; }
+
+.search-results-items .item {
+  flex-basis: 18%;
+  flex-grow: 0;
+  justify-content: flex-start;
+  max-width: 18%;
+  height: 180px;
+  overflow: hidden;
+  margin: 0.5em 1%;
+  border: 3px solid #f4f4f4; }
+
+.search-results-items .item.pending {
+  border-color: #a0bfdb; }
+  .search-results-items .item.pending.parent {
+    border-color: #a0bfdb #99bc87 #99bc87 #a0bfdb; }
+  .search-results-items .item.pending.child {
+    border-color: #a0bfdb #d4d88a #d4d88a #a0bfdb; }
+
+.search-results-items .item.parent {
+  border-color: #99bc87; }
+
+.search-results-items .item.child {
+  border-color: #d4d88a; }
+
+.search-results-items .item.deleted {
+  border-color: #d89595; }
+
+.search-results-items .item:hover {
+  border-color: #d6d6d6; }
+
+.search-results-items .item:hover.pending {
+  border-color: #6f95b7; }
+  .search-results-items .item:hover.pending.parent {
+    border-color: #6f95b7 #5e9e3f #5e9e3f #6f95b7; }
+  .search-results-items .item:hover.pending.child {
+    border-color: #6f95b7 #bac147 #bac147 #6f95b7; }
+
+.search-results-items .item:hover.parent {
+  border-color: #5e9e3f; }
+
+.search-results-items .item:hover.child {
+  border-color: #bac147; }
+
+.search-results-items .item:hover.deleted {
+  border-color: #b74b4b; }
+
+.search-results-item-image {
+  margin: 12px auto; }

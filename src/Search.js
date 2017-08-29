@@ -47,7 +47,7 @@ class Search extends Component {
   }
   render() {
     return (
-      <div className="Search">
+      <div className="search">
         <SearchForm query={this.state.query}
           limit={this.state.limit} onSubmit={this.handleSearchSubmit} />
         <SearchResults onNextPageClick={this.handleNextPageClick}

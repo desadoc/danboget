@@ -5,7 +5,7 @@ import './style/TopMenu.css';
 class TopMenu extends Component {
   render() {
     return (
-      <div className="TopMenu">
+      <div className="top-menu">
         <Link to="/search">Search</Link>
         <Link to="/settings">Settings</Link>
       </div>

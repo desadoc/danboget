@@ -48,13 +48,15 @@ class App extends Component {
 
     return (
       <Router>
-        <div className="App">
-          <TopMenu />
-          <Route exact path="/" render={
-            (props) => <Redirect to="/search" />
-          } />
-          <Route exact path="/search" render={SearchWProps} />
-          <Route exact path="/settings" render={SettingsWProps} />
+        <div className="app">
+          <div className="root-container">
+            <TopMenu />
+            <Route exact path="/" render={
+              (props) => <Redirect to="/search" />
+            } />
+            <Route exact path="/search" render={SearchWProps} />
+            <Route exact path="/settings" render={SettingsWProps} />
+          </div>
         </div>
       </Router>
     );

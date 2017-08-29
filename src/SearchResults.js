@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './style/SearchResults.css';
+import CN from 'classnames';
 
-import ImageResult  from './components/ImageResult';
-import Button       from './components/Button';
+import Image  from './components/Image';
+import Button from './components/Button';
 
 let danbooru = require('./lib/danbooru');
 
@@ -54,22 +55,68 @@ class SearchResults extends Component {
     let postsEls = [];
     let posts = this.state.posts;
 
+    let altString = function(post) {
+      let tagString = '';
+
+      if (post.tag_string_artist)
+        tagString += post.tag_string_artist + ' ';
+
+      if (post.tag_string_copyright)
+        tagString += post.tag_string_copyright + ' ';
+
+      if (post.tag_string_character)
+        tagString += post.tag_string_character + ' ';
+
+      if (post.tag_string_general)
+        tagString += post.tag_string_general;
+
+      if (tagString.length > 150)
+        tagString = tagString.substr(0, 147) + "...";
+
+      return tagString;
+    }
+
     if (posts.length > 0) {
       for (let i=0; i<posts.length; i++) {
         let post = posts[i];
+
+        let statusClasses = {
+          parent: post.has_children,
+          child: post.parent_id,
+          pending: post.is_pending,
+          deleted: post.is_deleted
+        };
+
         postsEls.push(
-          <a target="_blank" href={post.complete_post_url}>
-            <ImageResult key={post.id} src={post.complete_preview_url} />
+          <a target="_blank" href={post.complete_post_url}
+            className={CN("search-results-items", "item", statusClasses)}
+          >
+            <div className="search-results-item-image">
+              <Image alt={altString(post)}
+                key={post.id} src={post.complete_preview_url} />
+            </div>
           </a>
         );
       }
     }
 
+    let nextPageBtn = null;
+
+    if (postsEls.length > 0) {
+      nextPageBtn =
+        <Button onClick={this.props.onNextPageClick}>
+          Next Page
+        </Button>;
+    }
+
     return (
-      <div className="SearchResults">
-        {postsEls}
-        { (this.props.query != null) &&
-            <Button onClick={this.props.onNextPageClick}>Next Page</Button> }
+      <div className="search-results">
+        <div className="search-results-items">
+          { postsEls }
+        </div>
+        <div className="search-results-nav">
+          { nextPageBtn }
+        </div>
       </div>
     );
   }

@@ -34,7 +34,7 @@ class Settings extends Component {
   }
   render() {
     return (
-      <div className="Settings">
+      <div className="settings">
         <Form onSubmit={this.handleSubmit}>
           <Input type="text" name="login"
             state={this.state} onChange={this.handleChange} />

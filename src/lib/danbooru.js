@@ -14,14 +14,6 @@ function convertPostEntries(posts) {
 		post.tags_character = post.tag_string_character.split(' ');
 		post.tags_general = post.tag_string_general.split(' ');
 
-		if (!post.large_file_url) {
-			post.complete_preview_url = '404.jpg';
-			post.preview_height = 400
-			post.preview_width = 317
-
-			continue;
-		}
-
 		post.complete_large_url = danbooruUrl + post.large_file_url;
     post.complete_preview_url = danbooruUrl + post.preview_file_url;
 
@@ -29,11 +21,11 @@ function convertPostEntries(posts) {
 		var imgHeight = post.image_height
 
 		if (imgWidth < imgHeight) {
-			post.preview_height = 400;
-			post.preview_width = (imgWidth / imgHeight) * 400;
+			post.preview_height = 150;
+			post.preview_width = (imgWidth / imgHeight) * 150;
 		} else {
-			post.preview_height = (imgHeight / imgWidth) * 400;
-			post.previepreview_widthwWidth = 400;
+			post.preview_height = (imgHeight / imgWidth) * 150;
+			post.preview_width = 150;
 		}
 	}
 

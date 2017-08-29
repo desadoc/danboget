@@ -1,1 +1,10 @@
 @import url(reset.css);
+/*
+ * Border box
+ */
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+    -webkit-box-sizing--moz-box-sizing: border-box;
+      -webkit-box-sizing--moz-box-sizing-box-sizing: border-box; }
