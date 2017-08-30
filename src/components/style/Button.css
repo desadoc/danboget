@@ -1,8 +1,9 @@
 .button {
+  display: inline-block;
   background: 0;
   border: 1px solid #d6d6d6;
   border-radius: 0;
-  height: 2.5em; }
+  height: 2.25em; }
 
 .button:hover {
   border-color: #f4f4f4; }

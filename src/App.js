@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import './style/App.css';
 
-import TopMenu      from './TopMenu';
+import SideBar      from './SideBar';
 import Search       from './Search';
 import Settings     from './Settings';
 
@@ -50,7 +50,7 @@ class App extends Component {
       <Router>
         <div className="app">
           <div className="root-container">
-            <TopMenu />
+            <SideBar />
             <Route exact path="/" render={
               (props) => <Redirect to="/search" />
             } />

@@ -27,13 +27,15 @@ class Search extends Component {
     return {
       page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
       limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
-      query: (params.query != null) ? params.query.replace(/\+/g, ' '): null
+      query: (params.query != null) ? params.query.replace(/\+/g, ' '): null,
+      filters: (params.filters != null) ? params.filters.replace(/\+/g, ' '): null,
     }
   }
   handleSearchSubmit(params) {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: params.query.replace(/ /g, '+'),
+        filters: params.filters.replace(/ /g, '+'),
         limit: params.limit,
         page: 0
       })
@@ -43,6 +45,7 @@ class Search extends Component {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: this.state.query.replace(/ /g, '+'),
+        filters: this.state.filters.replace(/ /g, '+'),
         limit: this.state.limit,
         page: (index > 0) ? index : 0
       })
@@ -60,17 +63,21 @@ class Search extends Component {
   render() {
     return (
       <div className="search">
-        <SearchForm query={this.state.query}
+        <SearchForm query={this.state.query} filters={this.state.filters}
           limit={this.state.limit} onSubmit={this.handleSearchSubmit} />
         <SearchResults
           login={this.props.login} apikey={this.props.apikey}
-          query={this.state.query} limit={this.state.limit}
-          page={this.state.page} />
-        <SearchNav page={this.state.page}
-          onPreviousPageClick={this.handlePreviousPageClick}
-          onGoExactPageClick={this.handleGoExactPageClick}
-          onNextPageClick={this.handleNextPageClick}
+          query={this.state.query} filters={this.state.filters}
+          limit={this.state.limit} page={this.state.page}
         />
+        {
+          (this.state.query != null) &&
+          <SearchNav page={this.state.page}
+            onPreviousPageClick={this.handlePreviousPageClick}
+            onGoExactPageClick={this.handleGoExactPageClick}
+            onNextPageClick={this.handleNextPageClick}
+          />
+        }
       </div>
     );
   }

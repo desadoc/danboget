@@ -87,7 +87,7 @@ class SearchResults extends Component {
         };
 
         postsEls.push(
-          <a target="_blank" href={post.complete_post_url}
+          <a key={post.id} target="_blank" href={post.complete_post_url}
             className={CN("search-results-items", "item", statusClasses)}
           >
             <div className="search-results-item-image">

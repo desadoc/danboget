@@ -42,3 +42,10 @@ exports.stringifyQueryParams =
 
     return result.substring(0, result.length-1);
   }
+
+let idCount = 0;
+
+exports.createId = function(prefix) {
+  prefix = (prefix != null) ? prefix : '_id';
+  return prefix + ++idCount;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './style/SearchNav.css';
 
+import Form   from './components/Form';
 import Button from './components/Button';
 import Input  from './components/Input';
 
@@ -13,6 +14,7 @@ class SearchNav extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handlePageSubmit = this.handlePageSubmit.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -24,19 +26,20 @@ class SearchNav extends Component {
       page: value
     });
   }
+  handlePageSubmit() {
+    this.props.onGoExactPageClick(this.state.page);
+  }
   render() {
     return (
       <div className="search-nav">
         <Button className="search-nav-item" onClick={this.props.onPreviousPageClick}>
           <i className="fa fa-angle-left" aria-hidden="true"></i>
         </Button>
-        <Input className="search-nav-item search-nav-page" name="page" type="number"
-          state={this.state} onChange={this.handleChange} />
-        <Button className="search-nav-item search-nav-go-btn"
-          onClick={() => {this.props.onGoExactPageClick(this.state.page)}}
-        >
-          go
-        </Button>
+        <Form className="search-nav-item" onSubmit={this.handlePageSubmit}>
+          <Input name="page" type="number"
+            value={this.state.page} onChange={this.handleChange} />
+        </Form>
+        <Button className="search-nav-item" onClick={this.handlePageSubmit}>go</Button>
         <Button className="search-nav-item" onClick={this.props.onNextPageClick}>
           <i className="fa fa-angle-right" aria-hidden="true"></i>
         </Button>

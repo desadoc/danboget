@@ -5,7 +5,8 @@ import CN from 'classnames';
 class Button extends Component {
   render() {
     return (
-      <button className={CN("button", this.props.className)}
+      <button type={this.props.type}
+        className={CN("button", this.props.className)}
         onClick={this.props.onClick}
       >
         {this.props.children}
