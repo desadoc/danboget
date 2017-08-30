@@ -37,12 +37,12 @@ class SearchForm extends Component {
   }
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Input type="text" name="query"
+      <Form className="search-form" onSubmit={this.handleSubmit}>
+        <Input className="search-form-item search-form-query" type="text"
+          name="query" state={this.state} onChange={this.handleChange} />
+        <Input className="search-form-item search-form-limit" type="number" name="limit"
           state={this.state} onChange={this.handleChange} />
-        <Input type="number" name="limit"
-          state={this.state} onChange={this.handleChange} />
-        <Button type="submit">Search</Button>
+        <Button className="search-form-item search-form-submit-btn" type="submit">Search</Button>
       </Form>
     );
   }

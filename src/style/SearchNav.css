@@ -1,0 +1,11 @@
+.search-nav {
+  width: 20%;
+  display: flex;
+  margin: 0 auto; }
+
+.search-nav-item {
+  flex: 2;
+  margin: 0 0.5em; }
+
+.search-nav-page {
+  flex: 12; }

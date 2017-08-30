@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style/Input.css';
+import CN from 'classnames';
 
 class Input extends Component {
   constructor(props) {
@@ -12,7 +13,9 @@ class Input extends Component {
   }
   render() {
     return (
-      <input type={this.props.type}
+      <input
+        className={CN("input", this.props.className)}
+        type={this.props.type}
         name={this.props.name}
         value={this.props.state[this.props.name]}
         onChange={this.handleChange}

@@ -3,6 +3,7 @@ import './style/Search.css';
 
 import SearchForm     from './SearchForm';
 import SearchResults  from './SearchResults';
+import SearchNav      from './SearchNav';
 
 let utils    = require('./lib/utils');
 
@@ -13,6 +14,8 @@ class Search extends Component {
     this.state = this.createState(props.location.search);
 
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
+    this.handleGoExactPageClick = this.handleGoExactPageClick.bind(this);
     this.handleNextPageClick = this.handleNextPageClick.bind(this);
   }
   componentWillReceiveProps(nextProps) {
@@ -36,24 +39,38 @@ class Search extends Component {
       })
     );
   }
-  handleNextPageClick() {
+  goToPage(index) {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: this.state.query.replace(/ /g, '+'),
         limit: this.state.limit,
-        page: this.state.page + 1
+        page: (index > 0) ? index : 0
       })
     );
+  }
+  handlePreviousPageClick() {
+    this.goToPage(this.state.page - 1);
+  }
+  handleGoExactPageClick(page) {
+    this.goToPage(page);
+  }
+  handleNextPageClick() {
+    this.goToPage(this.state.page + 1);
   }
   render() {
     return (
       <div className="search">
         <SearchForm query={this.state.query}
           limit={this.state.limit} onSubmit={this.handleSearchSubmit} />
-        <SearchResults onNextPageClick={this.handleNextPageClick}
+        <SearchResults
           login={this.props.login} apikey={this.props.apikey}
           query={this.state.query} limit={this.state.limit}
           page={this.state.page} />
+        <SearchNav page={this.state.page}
+          onPreviousPageClick={this.handlePreviousPageClick}
+          onGoExactPageClick={this.handleGoExactPageClick}
+          onNextPageClick={this.handleNextPageClick}
+        />
       </div>
     );
   }

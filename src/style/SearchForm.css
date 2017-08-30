@@ -1,0 +1,12 @@
+.search-form {
+  padding: 0.5em 0;
+  width: 80%;
+  margin: 0 auto;
+  display: flex; }
+
+.search-form-item {
+  flex: 1;
+  margin: 0 0.5em; }
+
+.search-form-query {
+  flex-grow: 8; }

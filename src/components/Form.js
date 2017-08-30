@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style/Form.css';
+import CN from 'classnames';
 
 class Form extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class Form extends Component {
   }
   render() {
     return (
-      <form action="#" className="Form" onSubmit={this.handleSubmit}>
+      <form className={CN("form", this.props.className)}
+        action="#" onSubmit={this.handleSubmit}
+      >
         {this.props.children}
       </form>
     );

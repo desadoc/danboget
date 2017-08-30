@@ -3,7 +3,6 @@ import './style/SearchResults.css';
 import CN from 'classnames';
 
 import Image  from './components/Image';
-import Button from './components/Button';
 
 let danbooru = require('./lib/danbooru');
 
@@ -100,22 +99,10 @@ class SearchResults extends Component {
       }
     }
 
-    let nextPageBtn = null;
-
-    if (postsEls.length > 0) {
-      nextPageBtn =
-        <Button onClick={this.props.onNextPageClick}>
-          Next Page
-        </Button>;
-    }
-
     return (
       <div className="search-results">
         <div className="search-results-items">
           { postsEls }
-        </div>
-        <div className="search-results-nav">
-          { nextPageBtn }
         </div>
       </div>
     );
