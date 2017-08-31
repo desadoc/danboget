@@ -4,14 +4,14 @@ import CN from 'classnames';
 
 import Image  from './components/Image';
 
-let danbooru = require('./lib/danbooru');
+let danbo = require('./lib/danbooru');
 
 class SearchResults extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      posts: []
+      results: []
     }
   }
   componentDidMount() {
@@ -29,12 +29,12 @@ class SearchResults extends Component {
 
     if (query == null) {
       this.setState({
-        posts: []
+        results: []
       });
       return;
     }
 
-    danbooru.posts({
+    danbo.posts({
       login: login,
       apikey: apikey,
       tags: query,
@@ -43,7 +43,7 @@ class SearchResults extends Component {
     })
     .then(res => {
       this.setState({
-        posts: res
+        results: res
       });
     })
     .catch(err => {
@@ -51,33 +51,19 @@ class SearchResults extends Component {
     })
   }
   render() {
-    let postsEls = [];
-    let posts = this.state.posts;
+    let resultsEls = [];
+    let results = this.state.results;
 
-    let altString = function(post) {
-      let tagString = '';
+    for (let i=0; i<results.length; i++) {
+      let result = results[i];
 
-      if (post.tag_string_artist)
-        tagString += post.tag_string_artist + ' ';
+      let query = result.query;
+      let posts = result.posts;
 
-      if (post.tag_string_copyright)
-        tagString += post.tag_string_copyright + ' ';
+      let postsEls = [];
 
-      if (post.tag_string_character)
-        tagString += post.tag_string_character + ' ';
-
-      if (post.tag_string_general)
-        tagString += post.tag_string_general;
-
-      if (tagString.length > 150)
-        tagString = tagString.substr(0, 147) + "...";
-
-      return tagString;
-    }
-
-    if (posts.length > 0) {
-      for (let i=0; i<posts.length; i++) {
-        let post = posts[i];
+      for (let j=0; j<posts.length; j++) {
+        let post = posts[j];
 
         let statusClasses = {
           parent: post.has_children,
@@ -88,22 +74,37 @@ class SearchResults extends Component {
 
         postsEls.push(
           <a key={post.id} target="_blank" href={post.complete_post_url}
-            className={CN("search-results-items", "item", statusClasses)}
+            className={CN("item", statusClasses)}
           >
             <div className="search-results-item-image">
-              <Image alt={altString(post)}
+              <Image alt={danbo.resumeTagString(post)}
                 key={post.id} src={post.complete_preview_url} />
             </div>
           </a>
         );
       }
+
+      resultsEls.push(
+        <div className="search-results-group">
+          <div className="search-results-group-title">
+            <p>{ query }</p>
+          </div>
+          {
+            (postsEls.length > 0) ?
+            <div className="search-results-items">
+              { postsEls }
+            </div> :
+            <div className="search-results-items empty">
+              No results
+            </div>
+          }
+        </div>
+      );
     }
 
     return (
       <div className="search-results">
-        <div className="search-results-items">
-          { postsEls }
-        </div>
+        { resultsEls }
       </div>
     );
   }

@@ -32,7 +32,7 @@ function convertPostEntries(posts) {
 	return posts;
 }
 
-exports.posts = function(params) {
+function singlePost(params) {
 
 	let requestUrl = danbooruUrl + "/posts.json";
 
@@ -97,6 +97,70 @@ exports.posts = function(params) {
       resolve(arr.slice(firstOffset, firstOffset + quantity));
     };
 
-		async.mapLimit(queries, 10, doQuery, doFinal);
+		async.mapLimit(queries, 2, doQuery, doFinal);
   });
+}
+
+exports.posts = function(params) {
+	let queries = [];
+
+	if (params.tags != null)
+		queries = params.tags.match(/[^\r\n]+/g);
+
+	if (!queries || queries.length <= 1) {
+		return new Promise(function(resolve, reject) {
+			singlePost(params)
+			.then(posts => {resolve([
+				{ query: params.tags, posts: posts }
+			])})
+			.catch(err => {reject(err)});
+		});
+	}
+
+	return new Promise(function(resolve, reject){
+		let doQuery = function(query, cb) {
+			singlePost({
+				login: params.login,
+				apikey: params.apikey,
+				tags: query,
+				first: params.offset,
+				quantity: params.quantity
+			})
+			.then(posts => { cb(null, { query: query, posts: posts }); })
+			.catch(err => { cb(err); });
+		}
+
+		let doFinal = function (err, results) {
+			if (err) {
+				reject(err);
+				return;
+			}
+
+			resolve(results);
+		};
+
+		async.mapLimit(queries, 6, doQuery, doFinal);
+	});
+}
+
+exports.resumeTagString = function(post, limit) {
+	limit = limit || 150;
+	let tagString = '';
+
+	if (post.tag_string_artist)
+		tagString += post.tag_string_artist + ' ';
+
+	if (post.tag_string_copyright)
+		tagString += post.tag_string_copyright + ' ';
+
+	if (post.tag_string_character)
+		tagString += post.tag_string_character + ' ';
+
+	if (post.tag_string_general)
+		tagString += post.tag_string_general;
+
+	if (tagString.length > limit)
+		tagString = tagString.substr(0, limit-3) + "...";
+
+	return tagString;
 }

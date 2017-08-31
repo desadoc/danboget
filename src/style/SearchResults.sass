@@ -4,9 +4,20 @@
 .search-results
   padding: 1em 0
 
+.search-results-group
+  border: 2px solid $default_grey
+  border-radius: 5px
+  margin-bottom: 1em
+  padding: 0.5em
+
 .search-results-items
   display: flex
   flex-flow: wrap
+  &.empty
+    color: $highlight_grey
+    padding: 0.5em 0
+    text-align: center
+    display: inline-block
 
 .search-results-items .item
   flex-basis: 18%
@@ -50,4 +61,5 @@
     border-color: $highlight_red
 
 .search-results-item-image
-  margin: 12px auto
+  margin: 12px 0
+  text-align: center

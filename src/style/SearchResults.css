@@ -1,9 +1,20 @@
 .search-results {
   padding: 1em 0; }
 
+.search-results-group {
+  border: 2px solid #f4f4f4;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  padding: 0.5em; }
+
 .search-results-items {
   display: flex;
   flex-flow: wrap; }
+  .search-results-items.empty {
+    color: #d6d6d6;
+    padding: 0.5em 0;
+    text-align: center;
+    display: inline-block; }
 
 .search-results-items .item {
   flex-basis: 18%;
@@ -51,4 +62,5 @@
   border-color: #b74b4b; }
 
 .search-results-item-image {
-  margin: 12px auto; }
+  margin: 12px 0;
+  text-align: center; }

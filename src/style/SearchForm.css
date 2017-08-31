@@ -1,14 +1,24 @@
 .search-form .input-label {
   width: 4em; }
 
-.search-form input {
+.search-form input,
+.search-form textarea {
   width: calc(100% - 4em); }
+
+.search-form textarea {
+  resize: vertical;
+  min-height: 1.5em; }
 
 .search-form-submit-btn button {
   width: 100%; }
 
 .search-form .search-form-query {
-  width: 100%; }
+  width: 95%; }
+
+.search-form .search-form-mode-toggle {
+  width: 5%; }
+  .search-form .search-form-mode-toggle button {
+    width: 100%; }
 
 .search-form .search-form-filters {
   width: 72%; }
