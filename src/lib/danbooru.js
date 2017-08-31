@@ -32,7 +32,7 @@ function convertPostEntries(posts) {
 	return posts;
 }
 
-function singlePost(params) {
+function singleQuery(params) {
 
 	let requestUrl = danbooruUrl + "/posts.json";
 
@@ -102,27 +102,19 @@ function singlePost(params) {
 }
 
 exports.posts = function(params) {
-	let queries = [];
 
-	if (params.tags != null)
-		queries = params.tags.match(/[^\r\n]+/g);
+	let queries = [''];
+	let filters = params.filters || '';
 
-	if (!queries || queries.length <= 1) {
-		return new Promise(function(resolve, reject) {
-			singlePost(params)
-			.then(posts => {resolve([
-				{ query: params.tags, posts: posts }
-			])})
-			.catch(err => {reject(err)});
-		});
-	}
+	if (params.queries && params.queries.length > 0)
+		queries = params.queries;
 
 	return new Promise(function(resolve, reject){
 		let doQuery = function(query, cb) {
-			singlePost({
+			singleQuery({
 				login: params.login,
 				apikey: params.apikey,
-				tags: query,
+				tags: query + ' ' + filters,
 				first: params.offset,
 				quantity: params.quantity
 			})

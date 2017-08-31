@@ -24,6 +24,7 @@ class SearchResults extends Component {
     let login = props.login;
     let apikey = props.apikey;
     let query = props.query;
+    let filters = props.filters;
     let limit = props.limit;
     let page = props.page;
 
@@ -34,10 +35,16 @@ class SearchResults extends Component {
       return;
     }
 
+    let queries = query.match(/[^\r\n]+/g);
+    if (queries == null) {
+      queries = [''];
+    }
+
     danbo.posts({
       login: login,
       apikey: apikey,
-      tags: query,
+      queries: queries,
+      filters: filters,
       quantity: limit,
       offset: page * limit
     })
