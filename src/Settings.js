@@ -13,6 +13,7 @@ class Settings extends Component {
     super(props);
 
     this.state = {
+      dirty: true,
       login: {
         id: utils.createId(),
         value: props.values.login
@@ -35,6 +36,7 @@ class Settings extends Component {
   }
   handleChange(name, value) {
     this.setState(prevState => {
+      prevState.dirty = true;
       prevState[name].value = value;
       return prevState;
     });
@@ -44,8 +46,13 @@ class Settings extends Component {
       login: this.state.login.value,
       apikey: this.state.apikey.value,
     });
+    this.setState({ dirty: false});
   }
   render() {
+    let submitBtnClass = null;
+    if (!this.state.dirty)
+      submitBtnClass = "button-ok";
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <div className="settings">
@@ -65,7 +72,9 @@ class Settings extends Component {
           </div>
           <div className="form-row">
             <div className="input-group">
-              <Button type="submit">Save</Button>
+              <Button className={submitBtnClass} type="submit">
+                {this.state.dirty ? "Save" : "Saved!"}
+              </Button>
             </div>
           </div>
         </div>
