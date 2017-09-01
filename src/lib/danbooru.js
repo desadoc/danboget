@@ -131,6 +131,121 @@ function processFilterString(filterString) {
 	};
 }
 
+function applySpecialFilterTag(post, filterTag) {
+
+	if (filterTag.match(/^rating:[sqe]$/)) {
+		let rating = filterTag.substring("rating:".length);
+		if (rating.startsWith(post.rating)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if (filterTag.match(/^score:(>|>=|<|<=)?\d+$/)) {
+		let valueStr = filterTag.substring("score:".length);
+
+		if (valueStr.startsWith("<")) {
+			if (valueStr.startsWith("<=")) {
+				return post.score <= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.score < parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		if (valueStr.startsWith(">")) {
+			if (valueStr.startsWith(">=")) {
+				return post.score >= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.score > parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		return post.score === parseInt(valueStr, 10);
+	}
+
+	if (filterTag.match(/^width:(>|>=|<|<=)?\d+$/)) {
+		let valueStr = filterTag.substring("width:".length);
+
+		if (valueStr.startsWith("<")) {
+			if (valueStr.startsWith("<=")) {
+				return post.image_width <= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.image_width < parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		if (valueStr.startsWith(">")) {
+			if (valueStr.startsWith(">=")) {
+				return post.image_width >= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.image_width > parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		return post.image_width === parseInt(valueStr, 10);
+	}
+
+	if (filterTag.match(/^height:(>|>=|<|<=)?\d+$/)) {
+		let valueStr = filterTag.substring("height:".length);
+
+		if (valueStr.startsWith("<")) {
+			if (valueStr.startsWith("<=")) {
+				return post.image_height <= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.image_height < parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		if (valueStr.startsWith(">")) {
+			if (valueStr.startsWith(">=")) {
+				return post.image_height >= parseInt(valueStr.substring(2), 10);
+			} else {
+				return post.image_height > parseInt(valueStr.substring(1), 10);
+			}
+		}
+
+		return post.image_height === parseInt(valueStr, 10);
+	}
+
+	let postTags = post.tag_string.split(' ');
+
+	if (filterTag.startsWith("*") && filterTag.endsWith("*")) {
+		let valueToMatch = filterTag.substring(1, filterTag.length-1);
+		for (let i=0; i<postTags.length; i++) {
+			let tag = postTags[i];
+			if (tag.indexOf(valueToMatch) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	if (filterTag.startsWith("*")) {
+		let valueToMatch = filterTag.substring(1);
+		for (let i=0; i<postTags.length; i++) {
+			let tag = postTags[i];
+			if (tag.endsWith(valueToMatch)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	if (filterTag.endsWith("*")) {
+		let valueToMatch = filterTag.substring(0, filterTag.length-1);
+		for (let i=0; i<postTags.length; i++) {
+			let tag = postTags[i];
+			if (tag.startsWith(valueToMatch)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	return undefined;
+}
+
 function filterPosts(posts, filters) {
 	let result = [];
 
@@ -147,6 +262,17 @@ function filterPosts(posts, filters) {
 		if (all) {
 			for (let j=0; j<all.length; j++) {
 				let tag = all[j];
+
+				let specialMatch = applySpecialFilterTag(post, tag);
+				if (specialMatch !== undefined) {
+					if (specialMatch === false) {
+						keep = false;
+						break;
+					} else {
+						continue;
+					}
+				}
+
 				if (tags.indexOf(tag) < 0) {
 					keep = false;
 					break;
@@ -157,6 +283,17 @@ function filterPosts(posts, filters) {
 		if (neg) {
 			for (let j=0; j<neg.length; j++) {
 				let tag = neg[j];
+
+				let specialMatch = applySpecialFilterTag(post, tag);
+				if (specialMatch !== undefined) {
+					if (specialMatch === true) {
+						keep = false;
+						break;
+					} else {
+						continue;
+					}
+				}
+
 				if (tags.indexOf(tag) >= 0) {
 					keep = false;
 					break;
@@ -168,6 +305,17 @@ function filterPosts(posts, filters) {
 			let matched = false;
 			for (let j=0; j<any.length; j++) {
 				let tag = any[j];
+
+				let specialMatch = applySpecialFilterTag(post, tag);
+				if (specialMatch !== undefined) {
+					if (specialMatch === true) {
+						matched = true;
+						break;
+					} else {
+						continue;
+					}
+				}
+
 				if (tags.indexOf(tag) >= 0) {
 					matched = true;
 					break;
@@ -199,7 +347,7 @@ exports.posts = function(params) {
 				login: params.login,
 				apikey: params.apikey,
 				tags: query + ' ' + extra,
-				first: params.offset,
+				offset: params.offset,
 				quantity: params.quantity
 			})
 			.then(posts => {
