@@ -20,11 +20,14 @@
   .search-form .search-form-mode-toggle button {
     width: 100%; }
 
-.search-form .search-form-filters {
-  width: 72%; }
+.search-form .search-form-extra {
+  width: 84%; }
 
 .search-form .search-form-limit {
   width: 16%; }
 
+.search-form .search-form-filters {
+  width: 84%; }
+
 .search-form .search-form-submit-btn {
-  width: 12%; }
+  width: 16%; }

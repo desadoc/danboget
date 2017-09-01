@@ -25,6 +25,7 @@ class SearchResults extends Component {
     let apikey = props.apikey;
     let query = props.query;
     let extra = props.extra;
+    let filters = props.filters;
     let limit = props.limit;
     let page = props.page;
 
@@ -45,6 +46,7 @@ class SearchResults extends Component {
       apikey: apikey,
       queries: queries,
       extra: extra,
+      filters: filters,
       quantity: limit,
       offset: page * limit
     })
@@ -92,7 +94,7 @@ class SearchResults extends Component {
       }
 
       resultsEls.push(
-        <div className="search-results-group">
+        <div key={i} className="search-results-group">
           <div className="search-results-group-title">
             <p>{ query }</p>
           </div>

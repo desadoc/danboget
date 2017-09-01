@@ -22,6 +22,10 @@ class SearchForm extends Component {
         id: utils.createId(),
         value: props.extra
       },
+      filters: {
+        id: utils.createId(),
+        value: props.filters
+      },
       limit: {
         id: utils.createId(),
         value: props.limit
@@ -35,6 +39,7 @@ class SearchForm extends Component {
     this.setState(prevState => {
       prevState.query.value = nextProps.query;
       prevState.extra.value = nextProps.extra;
+      prevState.filters.value = nextProps.filters;
       prevState.limit.value = nextProps.limit;
       return prevState;
     });
@@ -43,6 +48,7 @@ class SearchForm extends Component {
     this.props.onSubmit({
       query: this.state.query.value,
       extra: this.state.extra.value,
+      filters: this.state.filters.value,
       limit: this.state.limit.value,
     });
   }
@@ -77,8 +83,9 @@ class SearchForm extends Component {
             </Button>
           </div>
         </div>
+
         <div className="form-row">
-          <div className="input-group search-form-filters">
+          <div className="input-group search-form-extra">
             <Label htmlFor={this.state.extra.id}>Extra:</Label>
             <Input type="text" name="extra"
               value={this.state.extra.value} onChange={this.handleChange} />
@@ -87,6 +94,15 @@ class SearchForm extends Component {
             <Label htmlFor={this.state.limit.id}>Limit:</Label>
             <Input type="number" name="limit"
               value={this.state.limit.value} onChange={this.handleChange} />
+          </div>
+
+        </div>
+
+        <div className="form-row">
+          <div className="input-group search-form-filters">
+            <Label htmlFor={this.state.filters.id}>Filters:</Label>
+            <Input type="text" name="filters"
+              value={this.state.filters.value} onChange={this.handleChange} />
           </div>
           <div className="input-group search-form-submit-btn">
             <Button type="submit">Search</Button>

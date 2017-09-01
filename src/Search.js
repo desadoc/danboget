@@ -26,22 +26,26 @@ class Search extends Component {
     let params = utils.parseQueryString(queryStr);
 
     return {
-      page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
-      limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
       query: (params.query != null) ? params.query.replace(/\+/g, ' ') : '',
       extra: (params.extra != null) ? params.extra.replace(/\+/g, ' ') : '',
+      filters:
+        (params.filters != null) ? params.filters.replace(/\+/g, ' ') : '',
+      limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
+      page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
       mode: (params.mode != null) ? params.mode : "single"
     }
   }
-  navigate(query, extra, limit, page, mode) {
+  navigate(query, extra, filters, limit, page, mode) {
     query = query ? query.replace(/ /g, '+') : null;
     extra = extra ? extra.replace(/ /g, '+') : null;
+    filters = filters ? filters.replace(/ /g, '+') : null;
     limit = (limit !== 20) ? limit : null;
     page  = page ? page : null;
     mode  = (mode === "multiple") ? "multiple" : null;
 
     let queryStr = utils.stringifyQueryParams({
-        query: query, extra: extra, limit: limit, page: page, mode: mode
+        query: query, extra: extra, filters: filters,
+        limit: limit, page: page, mode: mode
     });
 
     this.props.history.push(
@@ -50,13 +54,15 @@ class Search extends Component {
   }
   handleSearchSubmit(params) {
     this.navigate(
-      params.query, params.extra, params.limit, 0, this.state.mode
+      params.query, params.extra, params.filters,
+      params.limit, 0, this.state.mode
     );
   }
   handleToggleClick() {
     this.navigate(
       this.state.query && this.state.query.match(/[^\r\n]+/g)[0],
       this.state.extra,
+      this.state.filters,
       this.state.limit,
       this.state.page,
       (this.state.mode === "single") ? "multiple" : "single"
@@ -66,6 +72,7 @@ class Search extends Component {
     this.navigate(
       this.state.query,
       this.state.extra,
+      this.state.filters,
       this.state.limit,
       (index > 0) ? index : 0,
       this.state.mode
@@ -84,13 +91,14 @@ class Search extends Component {
     return (
       <div className="search">
         <SearchForm query={this.state.query} extra={this.state.extra}
-          limit={this.state.limit} mode={this.state.mode}
-          onToggleClick={this.handleToggleClick}
+          filters={this.state.filters} limit={this.state.limit}
+          mode={this.state.mode} onToggleClick={this.handleToggleClick}
           onSubmit={this.handleSearchSubmit} />
         <SearchResults
           login={this.props.login} apikey={this.props.apikey}
           query={this.state.query} extra={this.state.extra}
-          limit={this.state.limit} page={this.state.page}
+          filters={this.state.filters} limit={this.state.limit}
+          page={this.state.page}
         />
         <SearchNav page={this.state.page}
           onPreviousPageClick={this.handlePreviousPageClick}

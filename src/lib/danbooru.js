@@ -101,6 +101,88 @@ function singleQuery(params) {
   });
 }
 
+function processFilterString(filterString) {
+	if (!filterString)
+		return {};
+
+	let tokens = filterString.split(' ');
+
+	let all = [];
+	let neg = [];
+	let any = [];
+
+	for (let i=0; i<tokens.length; i++) {
+		let token = tokens[i];
+		if (token.startsWith('-')) {
+			neg.push(token.substring(1));
+			continue;
+		}
+		if (token.startsWith('~')) {
+			any.push(token.substring(1));
+			continue;
+		}
+		all.push(token);
+	}
+
+	return {
+		all: (all.length > 0) ? all : undefined,
+		neg: (neg.length > 0) ? neg : undefined,
+		any: (any.length > 0) ? any : undefined,
+	};
+}
+
+function filterPosts(posts, filters) {
+	let result = [];
+
+	let all = filters.all;
+	let neg = filters.neg;
+	let any = filters.any;
+
+	for (let i=0; i<posts.length; i++) {
+		let post = posts[i];
+		let tags = post.tag_string.split(' ');
+
+		let keep = true;
+
+		if (all) {
+			for (let j=0; j<all.length; j++) {
+				let tag = all[j];
+				if (tags.indexOf(tag) < 0) {
+					keep = false;
+					break;
+				}
+			}
+		}
+
+		if (neg) {
+			for (let j=0; j<neg.length; j++) {
+				let tag = neg[j];
+				if (tags.indexOf(tag) >= 0) {
+					keep = false;
+					break;
+				}
+			}
+		}
+
+		if (any) {
+			let matched = false;
+			for (let j=0; j<any.length; j++) {
+				let tag = any[j];
+				if (tags.indexOf(tag) >= 0) {
+					matched = true;
+					break;
+				}
+			}
+			keep = keep && matched;
+		}
+
+		if (keep) {
+			result.push(post);
+		}
+	}
+	return result;
+}
+
 exports.posts = function(params) {
 
 	let queries = [''];
@@ -108,6 +190,8 @@ exports.posts = function(params) {
 
 	if (params.queries && params.queries.length > 0)
 		queries = params.queries;
+
+	let filters = processFilterString(params.filters);
 
 	return new Promise(function(resolve, reject){
 		let doQuery = function(query, cb) {
@@ -118,7 +202,9 @@ exports.posts = function(params) {
 				first: params.offset,
 				quantity: params.quantity
 			})
-			.then(posts => { cb(null, { query: query, posts: posts }); })
+			.then(posts => {
+				cb(null, { query: query, posts: filterPosts(posts, filters) });
+			})
 			.catch(err => { cb(err); });
 		}
 
