@@ -29,8 +29,8 @@ class Search extends Component {
       page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
       limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
       query: (params.query != null) ? params.query.replace(/\+/g, ' ') : null,
-      filters: (params.filters != null) ?
-                params.filters.replace(/\+/g, ' ') : null,
+      extra: (params.extra != null) ?
+                params.extra.replace(/\+/g, ' ') : null,
       mode: (params.mode != null) ? params.mode : "single"
     }
   }
@@ -38,7 +38,7 @@ class Search extends Component {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: params.query.replace(/ /g, '+'),
-        filters: params.filters.replace(/ /g, '+'),
+        extra: params.extra.replace(/ /g, '+'),
         limit: params.limit,
         page: 0,
         mode: this.state.mode
@@ -51,7 +51,7 @@ class Search extends Component {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: query.replace(/ /g, '+'),
-        filters: this.state.filters.replace(/ /g, '+'),
+        extra: this.state.extra.replace(/ /g, '+'),
         limit: this.state.limit,
         page: this.state.page,
         mode: (this.state.mode === "single") ? "multiple" : "single"
@@ -62,7 +62,7 @@ class Search extends Component {
     this.props.history.push(
       '/search?' + utils.stringifyQueryParams({
         query: this.state.query.replace(/ /g, '+'),
-        filters: this.state.filters.replace(/ /g, '+'),
+        extra: this.state.extra.replace(/ /g, '+'),
         limit: this.state.limit,
         page: (index > 0) ? index : 0,
         mode: this.state.mode
@@ -81,13 +81,13 @@ class Search extends Component {
   render() {
     return (
       <div className="search">
-        <SearchForm query={this.state.query} filters={this.state.filters}
+        <SearchForm query={this.state.query} extra={this.state.extra}
           limit={this.state.limit} mode={this.state.mode}
           onToggleClick={this.handleToggleClick}
           onSubmit={this.handleSearchSubmit} />
         <SearchResults
           login={this.props.login} apikey={this.props.apikey}
-          query={this.state.query} filters={this.state.filters}
+          query={this.state.query} extra={this.state.extra}
           limit={this.state.limit} page={this.state.page}
         />
         {

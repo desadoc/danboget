@@ -104,7 +104,7 @@ function singleQuery(params) {
 exports.posts = function(params) {
 
 	let queries = [''];
-	let filters = params.filters || '';
+	let extra = params.extra || '';
 
 	if (params.queries && params.queries.length > 0)
 		queries = params.queries;
@@ -114,7 +114,7 @@ exports.posts = function(params) {
 			singleQuery({
 				login: params.login,
 				apikey: params.apikey,
-				tags: query + ' ' + filters,
+				tags: query + ' ' + extra,
 				first: params.offset,
 				quantity: params.quantity
 			})

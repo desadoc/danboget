@@ -18,9 +18,9 @@ class SearchForm extends Component {
         id: utils.createId(),
         value: props.query || ''
       },
-      filters: {
+      extra: {
         id: utils.createId(),
-        value: props.filters || ''
+        value: props.extra || ''
       },
       limit: {
         id: utils.createId(),
@@ -34,7 +34,7 @@ class SearchForm extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
       prevState.query.value = nextProps.query || "";
-      prevState.filters.value = nextProps.filters || "";
+      prevState.extra.value = nextProps.extra || "";
       prevState.limit.value = nextProps.limit;
       return prevState;
     });
@@ -42,7 +42,7 @@ class SearchForm extends Component {
   handleSubmit() {
     this.props.onSubmit({
       query: this.state.query.value,
-      filters: this.state.filters.value,
+      extra: this.state.extra.value,
       limit: this.state.limit.value,
     });
   }
@@ -79,9 +79,9 @@ class SearchForm extends Component {
         </div>
         <div className="form-row">
           <div className="input-group search-form-filters">
-            <Label htmlFor={this.state.filters.id}>Filters:</Label>
-            <Input type="text" name="filters"
-              value={this.state.filters.value} onChange={this.handleChange} />
+            <Label htmlFor={this.state.extra.id}>Extra:</Label>
+            <Input type="text" name="extra"
+              value={this.state.extra.value} onChange={this.handleChange} />
           </div>
           <div className="input-group search-form-limit">
             <Label htmlFor={this.state.limit.id}>Limit:</Label>

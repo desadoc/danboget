@@ -24,7 +24,7 @@ class SearchResults extends Component {
     let login = props.login;
     let apikey = props.apikey;
     let query = props.query;
-    let filters = props.filters;
+    let extra = props.extra;
     let limit = props.limit;
     let page = props.page;
 
@@ -44,7 +44,7 @@ class SearchResults extends Component {
       login: login,
       apikey: apikey,
       queries: queries,
-      filters: filters,
+      extra: extra,
       quantity: limit,
       offset: page * limit
     })
