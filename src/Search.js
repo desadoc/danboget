@@ -28,45 +28,47 @@ class Search extends Component {
     return {
       page:  (params.page  != null) ? parseInt(params.page, 10) : 0,
       limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
-      query: (params.query != null) ? params.query.replace(/\+/g, ' ') : null,
-      extra: (params.extra != null) ?
-                params.extra.replace(/\+/g, ' ') : null,
+      query: (params.query != null) ? params.query.replace(/\+/g, ' ') : '',
+      extra: (params.extra != null) ? params.extra.replace(/\+/g, ' ') : '',
       mode: (params.mode != null) ? params.mode : "single"
     }
   }
-  handleSearchSubmit(params) {
+  navigate(query, extra, limit, page, mode) {
+    query = query ? query.replace(/ /g, '+') : null;
+    extra = extra ? extra.replace(/ /g, '+') : null;
+    limit = (limit !== 20) ? limit : null;
+    page  = page ? page : null;
+    mode  = (mode === "multiple") ? "multiple" : null;
+
+    let queryStr = utils.stringifyQueryParams({
+        query: query, extra: extra, limit: limit, page: page, mode: mode
+    });
+
     this.props.history.push(
-      '/search?' + utils.stringifyQueryParams({
-        query: params.query.replace(/ /g, '+'),
-        extra: params.extra.replace(/ /g, '+'),
-        limit: params.limit,
-        page: 0,
-        mode: this.state.mode
-      })
+      "/search?" + queryStr
+    );
+  }
+  handleSearchSubmit(params) {
+    this.navigate(
+      params.query, params.extra, params.limit, 0, this.state.mode
     );
   }
   handleToggleClick() {
-    let query = this.state.query && this.state.query.match(/[^\r\n]+/g)[0];
-
-    this.props.history.push(
-      '/search?' + utils.stringifyQueryParams({
-        query: query.replace(/ /g, '+'),
-        extra: this.state.extra.replace(/ /g, '+'),
-        limit: this.state.limit,
-        page: this.state.page,
-        mode: (this.state.mode === "single") ? "multiple" : "single"
-      })
+    this.navigate(
+      this.state.query && this.state.query.match(/[^\r\n]+/g)[0],
+      this.state.extra,
+      this.state.limit,
+      this.state.page,
+      (this.state.mode === "single") ? "multiple" : "single"
     );
   }
   goToPage(index) {
-    this.props.history.push(
-      '/search?' + utils.stringifyQueryParams({
-        query: this.state.query.replace(/ /g, '+'),
-        extra: this.state.extra.replace(/ /g, '+'),
-        limit: this.state.limit,
-        page: (index > 0) ? index : 0,
-        mode: this.state.mode
-      })
+    this.navigate(
+      this.state.query,
+      this.state.extra,
+      this.state.limit,
+      (index > 0) ? index : 0,
+      this.state.mode
     );
   }
   handlePreviousPageClick() {
@@ -90,14 +92,11 @@ class Search extends Component {
           query={this.state.query} extra={this.state.extra}
           limit={this.state.limit} page={this.state.page}
         />
-        {
-          (this.state.query != null) &&
-          <SearchNav page={this.state.page}
-            onPreviousPageClick={this.handlePreviousPageClick}
-            onGoExactPageClick={this.handleGoExactPageClick}
-            onNextPageClick={this.handleNextPageClick}
-          />
-        }
+        <SearchNav page={this.state.page}
+          onPreviousPageClick={this.handlePreviousPageClick}
+          onGoExactPageClick={this.handleGoExactPageClick}
+          onNextPageClick={this.handleNextPageClick}
+        />
       </div>
     );
   }

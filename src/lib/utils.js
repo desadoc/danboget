@@ -30,11 +30,8 @@ exports.stringifyQueryParams =
 
       let value = queryParams[name];
       if (value != null) {
-        result += name + '=' + encodeURIComponent(value);
-      } else {
-        result += name;
+        result += name + '=' + encodeURIComponent(value) + '&';
       }
-      result += '&';
     }
 
     if (result.length === 0)

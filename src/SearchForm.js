@@ -16,11 +16,11 @@ class SearchForm extends Component {
     this.state = {
       query: {
         id: utils.createId(),
-        value: props.query || ''
+        value: props.query
       },
       extra: {
         id: utils.createId(),
-        value: props.extra || ''
+        value: props.extra
       },
       limit: {
         id: utils.createId(),
@@ -33,8 +33,8 @@ class SearchForm extends Component {
   }
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
-      prevState.query.value = nextProps.query || "";
-      prevState.extra.value = nextProps.extra || "";
+      prevState.query.value = nextProps.query;
+      prevState.extra.value = nextProps.extra;
       prevState.limit.value = nextProps.limit;
       return prevState;
     });
