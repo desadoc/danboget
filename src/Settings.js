@@ -45,6 +45,7 @@ class Settings extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTagAliasRemove = this.handleTagAliasRemove.bind(this);
+    this.handleTagAliasAdd = this.handleTagAliasAdd.bind(this);
   }
   componentWillReceiveProps(nextProps) {
     this.setState(prevState => {
@@ -103,6 +104,21 @@ class Settings extends Component {
       return prevState;
     });
   }
+  handleTagAliasAdd() {
+    this.setState(prevState => {
+      prevState.tagAliases.push({
+        name : {
+          id: utils.createId(),
+          value: ''
+        },
+        tags: {
+          id: utils.createId(),
+          value: ''
+        }
+      });
+      return prevState;
+    });
+  }
   render() {
     let submitBtnClass = null;
     if (!this.state.dirty)
@@ -113,23 +129,23 @@ class Settings extends Component {
     for (let i=0; i<this.state.tagAliases.length; i++) {
       tagAliasesEls.push(
         <div key={i} className="form-row">
-          <div className="input-group">
+          <div className="input-group settings-tagaliases-name">
             <Label htmlFor={this.state.tagAliases[i].name.id}>Name:</Label>
             <Input id={this.state.tagAliases[i].name.id}
               type="text" name={"tagAliases_name_" + i}
               value={this.state.tagAliases[i].name.value}
               onChange={this.handleChange} />
           </div>
-          <div className="input-group">
+          <div className="input-group settings-tagaliases-tags">
             <Label htmlFor={this.state.tagAliases[i].tags.id}>Tags:</Label>
             <Input id={this.state.tagAliases[i].tags.id}
               type="text" name={"tagAliases_tags_" + i}
               value={this.state.tagAliases[i].tags.value}
               onChange={this.handleChange} />
           </div>
-          <div className="input-group">
+          <div className="input-group settings-tagaliases-remove-btn">
             <Button type="button" onClick={() => this.handleTagAliasRemove(i)}>
-              Remove
+              <i className="fa fa-trash-o" aria-hidden="true"></i>
             </Button>
           </div>
         </div>
@@ -139,34 +155,52 @@ class Settings extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <div className="settings">
-          <div className="form-row">
-            <div className="input-group">
-              <Label htmlFor={this.state.login.id}>Login:</Label>
-              <Input id={this.state.login.id} type="text" name="login"
-                value={this.state.login.value} onChange={this.handleChange} />
-            </div>
-          </div>
 
-          <div className="form-row">
-            <div className="input-group">
-              <Label htmlFor={this.state.apikey.id}>Apikey:</Label>
-              <Input id={this.state.apikey.id} type="text" name="apikey"
-                value={this.state.apikey.value} onChange={this.handleChange} />
+          <div className="form-section">
+            <div className="form-section-title">Credentials</div>
+
+            <div className="form-row">
+              <div className="input-group">
+                <Label htmlFor={this.state.login.id}>Login:</Label>
+                <Input id={this.state.login.id} type="text" name="login"
+                  value={this.state.login.value} onChange={this.handleChange} />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="input-group">
+                <Label htmlFor={this.state.apikey.id}>Apikey:</Label>
+                <Input id={this.state.apikey.id} type="text" name="apikey"
+                  value={this.state.apikey.value} onChange={this.handleChange} />
+              </div>
             </div>
           </div>
 
           <div className="form-section">
             <div className="form-section-title">Tag Aliases</div>
-            {tagAliasesEls}
-          </div>
 
-          <div className="form-row">
-            <div className="input-group">
-              <Button className={submitBtnClass} type="submit">
-                {this.state.dirty ? "Save" : "Saved!"}
-              </Button>
+            {tagAliasesEls}
+
+            <div className="form-row">
+              <div className="input-group">
+                <Button type="button"
+                  onClick={this.handleTagAliasAdd}>
+                  <i className="fa fa-plus" aria-hidden="true"></i>
+                </Button>
+              </div>
             </div>
           </div>
+
+          <div className="form-section">
+            <div className="form-row">
+              <div className="input-group">
+                <Button className={submitBtnClass} type="submit">
+                  {this.state.dirty ? "Save" : "Saved!"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </Form>
     );

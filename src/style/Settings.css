@@ -10,3 +10,13 @@
   .input-group.tag-aliases textarea {
     width: calc(100% - 4em);
     height: 10em; }
+
+.settings-tagaliases-name {
+  width: 25%; }
+  .settings-tagaliases-name .input {
+    width: calc(100% - 4em); }
+
+.settings-tagaliases-tags {
+  width: 65%; }
+  .settings-tagaliases-tags .input {
+    width: calc(100% - 4em); }
