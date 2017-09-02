@@ -4,3 +4,9 @@
 .settings button[type=submit] {
   width: 6em;
   margin-left: 6em; }
+
+.input-group.tag-aliases {
+  width: 100%; }
+  .input-group.tag-aliases textarea {
+    width: calc(100% - 4em);
+    height: 10em; }

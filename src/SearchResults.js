@@ -6,6 +6,21 @@ import Image  from './components/Image';
 
 let danbo = require('./lib/danbooru');
 
+function expandAliases(query, aliasesMap) {
+  let queryTags = query.split(' ');
+  for (let i=0; i<queryTags.length; i++) {
+    let queryTag = queryTags[i];
+    let definition = aliasesMap[queryTag];
+    if (definition != null) {
+      queryTags[i] = definition;
+    }
+  }
+  return queryTags.reduce(function(a, b) {
+    if (a) return a + ' ' + b;
+    return b;
+  }, '');
+}
+
 class SearchResults extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +38,7 @@ class SearchResults extends Component {
   fetchPosts(props) {
     let login = props.login;
     let apikey = props.apikey;
+    let tagAliases = props.tagAliases;
     let query = props.query;
     let extra = props.extra;
     let filters = props.filters;
@@ -41,12 +57,24 @@ class SearchResults extends Component {
       queries = [''];
     }
 
+    let tagAliasesMap = {};
+    for (let i=0; i<tagAliases.length; i++) {
+      tagAliasesMap[tagAliases[i].name] = tagAliases[i].tags;
+    }
+
+    let solvedQueries = [];
+    for (let i=0; i<queries.length; i++) {
+      solvedQueries.push(
+        expandAliases(queries[i], tagAliasesMap)
+      );
+    }
+
     danbo.posts({
       login: login,
       apikey: apikey,
-      queries: queries,
-      extra: extra,
-      filters: filters,
+      queries: solvedQueries,
+      extra: expandAliases(extra, tagAliasesMap),
+      filters: expandAliases(filters, tagAliasesMap),
       quantity: limit,
       offset: page * limit
     })

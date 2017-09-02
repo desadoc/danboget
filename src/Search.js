@@ -96,6 +96,7 @@ class Search extends Component {
           onSubmit={this.handleSearchSubmit} />
         <SearchResults
           login={this.props.login} apikey={this.props.apikey}
+          tagAliases={this.props.tagAliases}
           query={this.state.query} extra={this.state.extra}
           filters={this.state.filters} limit={this.state.limit}
           page={this.state.page}

@@ -42,6 +42,8 @@ function singleQuery(params) {
 	let first = params.offset || 0;
 	let quantity = params.quantity || 20;
 
+	console.log(tags);
+
 	return new Promise(function(resolve, reject) {
 
 		let last = first + quantity
