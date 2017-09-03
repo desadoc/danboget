@@ -35,13 +35,13 @@ class SearchForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState(prevState => {
-      prevState.query.value = nextProps.query;
-      prevState.extra.value = nextProps.extra;
-      prevState.filters.value = nextProps.filters;
-      prevState.limit.value = nextProps.limit;
-      return prevState;
+  componentWillReceiveProps(props) {
+    this.setState(state => {
+      state.query.value = props.query;
+      state.extra.value = props.extra;
+      state.filters.value = props.filters;
+      state.limit.value = props.limit;
+      return state;
     });
   }
   handleSubmit() {
@@ -52,10 +52,10 @@ class SearchForm extends Component {
       limit: this.state.limit.value,
     });
   }
-  handleChange(name, value) {
-    this.setState(prevState => {
-      prevState[name].value = value;
-      return prevState;
+  handleChange(value, dataKey) {
+    this.setState(state => {
+      state[dataKey].value = value;
+      return state;
     });
   }
 
@@ -66,10 +66,10 @@ class SearchForm extends Component {
           <div className="input-group search-form-query">
             <Label htmlFor={this.state.query.id}>Query:</Label>
             { (this.props.mode === "single") ?
-              <Input type="text" name="query"
+              <Input type="text" name="query" dataKey="query"
                 value={this.state.query.value} onChange={this.handleChange} /> :
               <TextArea name="query" rows="10" onChange={this.handleChange}
-                value={this.state.query.value} />
+                dataKey="query" value={this.state.query.value} />
             }
 
           </div>
@@ -87,12 +87,12 @@ class SearchForm extends Component {
         <div className="form-row">
           <div className="input-group search-form-extra">
             <Label htmlFor={this.state.extra.id}>Extra:</Label>
-            <Input type="text" name="extra"
+            <Input type="text" name="extra" dataKey="extra"
               value={this.state.extra.value} onChange={this.handleChange} />
           </div>
           <div className="input-group search-form-limit">
             <Label htmlFor={this.state.limit.id}>Limit:</Label>
-            <Input type="number" name="limit"
+            <Input type="number" name="limit" dataKey="limit"
               value={this.state.limit.value} onChange={this.handleChange} />
           </div>
 
@@ -101,7 +101,7 @@ class SearchForm extends Component {
         <div className="form-row">
           <div className="input-group search-form-filters">
             <Label htmlFor={this.state.filters.id}>Filters:</Label>
-            <Input type="text" name="filters"
+            <Input type="text" name="filters" dataKey="filters"
               value={this.state.filters.value} onChange={this.handleChange} />
           </div>
           <div className="input-group search-form-submit-btn">

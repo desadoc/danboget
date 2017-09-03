@@ -9,7 +9,8 @@ class Input extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange(e) {
-    this.props.onChange(this.props.name, e.target.value);
+    if (this.props.onChange)
+      this.props.onChange(e.target.value, this.props.dataKey, e);
   }
   render() {
     return (

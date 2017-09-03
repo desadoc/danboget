@@ -44,35 +44,31 @@ class Settings extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTagAliasChange = this.handleTagAliasChange.bind(this);
     this.handleTagAliasRemove = this.handleTagAliasRemove.bind(this);
     this.handleTagAliasAdd = this.handleTagAliasAdd.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState(prevState => {
-      prevState.login.value = nextProps.values.login;
-      prevState.apikey.value = nextProps.values.apikey;
-      prevState.tagAliases =
-        tagAliasesToControlData(nextProps.values.tagAliases);
-      return prevState;
+  componentWillReceiveProps(props) {
+    this.setState(state => {
+      state.login.value = props.values.login;
+      state.apikey.value = props.values.apikey;
+      state.tagAliases =
+        tagAliasesToControlData(props.values.tagAliases);
+      return state;
     });
   }
   handleChange(name, value) {
-    let matches = name.match(/^tagAliases_(name|tags)_(\d+)$/);
-    console.log(JSON.stringify(matches));
-    if (matches.length > 0) {
-      let field = matches[1];
-      let index = parseInt(matches[2], 10);
-      this.setState(prevState => {
-        prevState.tagAliases[index][field].value = value;
-        return prevState;
-      });
-    } else {
-      this.setState(prevState => {
-        prevState.dirty = true;
-        prevState[name].value = value;
-        return prevState;
-      });
-    }
+    this.setState(state => {
+      state.dirty = true;
+      state[name].value = value;
+      return state;
+    });
+  }
+  handleTagAliasChange(value, dataKey) {
+    this.setState(state => {
+      state.tagAliases[dataKey.i][dataKey.f].value = value;
+      return state;
+    });
   }
   handleSubmit() {
     let tagAliases = [];
@@ -99,14 +95,14 @@ class Settings extends Component {
     this.setState({ dirty: false });
   }
   handleTagAliasRemove(index) {
-    this.setState(prevState => {
-      prevState.tagAliases.splice(index, 1);
-      return prevState;
+    this.setState(state => {
+      state.tagAliases.splice(index, 1);
+      return state;
     });
   }
   handleTagAliasAdd() {
-    this.setState(prevState => {
-      prevState.tagAliases.push({
+    this.setState(state => {
+      state.tagAliases.push({
         name : {
           id: utils.createId(),
           value: ''
@@ -116,7 +112,7 @@ class Settings extends Component {
           value: ''
         }
       });
-      return prevState;
+      return state;
     });
   }
   render() {
@@ -132,19 +128,19 @@ class Settings extends Component {
           <div className="input-group settings-tagaliases-name">
             <Label htmlFor={this.state.tagAliases[i].name.id}>Name:</Label>
             <Input id={this.state.tagAliases[i].name.id}
-              type="text" name={"tagAliases_name_" + i}
+              type="text" dataKey={{f: "name", i: i}}
               value={this.state.tagAliases[i].name.value}
-              onChange={this.handleChange} />
+              onChange={this.handleTagAliasChange} />
           </div>
           <div className="input-group settings-tagaliases-tags">
             <Label htmlFor={this.state.tagAliases[i].tags.id}>Tags:</Label>
             <Input id={this.state.tagAliases[i].tags.id}
-              type="text" name={"tagAliases_tags_" + i}
+              type="text" dataKey={{f: "tags", i: i}}
               value={this.state.tagAliases[i].tags.value}
-              onChange={this.handleChange} />
+              onChange={this.handleTagAliasChange} />
           </div>
           <div className="input-group settings-tagaliases-remove-btn">
-            <Button type="button" onClick={() => this.handleTagAliasRemove(i)}>
+            <Button type="button" dataKey={i} onClick={this.handleTagAliasRemove}>
               <i className="fa fa-trash-o" aria-hidden="true"></i>
             </Button>
           </div>
@@ -183,8 +179,7 @@ class Settings extends Component {
 
             <div className="form-row">
               <div className="input-group">
-                <Button type="button"
-                  onClick={this.handleTagAliasAdd}>
+                <Button type="button" onClick={this.handleTagAliasAdd}>
                   <i className="fa fa-plus" aria-hidden="true"></i>
                 </Button>
               </div>

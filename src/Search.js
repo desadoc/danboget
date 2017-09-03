@@ -19,8 +19,8 @@ class Search extends Component {
     this.handleGoExactPageClick = this.handleGoExactPageClick.bind(this);
     this.handleNextPageClick = this.handleNextPageClick.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState(this.createState(nextProps.location.search));
+  componentWillReceiveProps(props) {
+    this.setState(this.createState(props.location.search));
   }
   createState(queryStr) {
     let params = utils.parseQueryString(queryStr);
