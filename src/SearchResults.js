@@ -69,7 +69,12 @@ class SearchResults extends Component {
       );
     }
 
-    danbo.posts({
+    if (this.reqPromise) {
+      this.reqPromise.cancel();
+      this.reqPromise = undefined;
+    }
+
+    let promise = danbo.posts({
       login: login,
       apikey: apikey,
       queries: solvedQueries,
@@ -78,14 +83,22 @@ class SearchResults extends Component {
       quantity: limit,
       offset: page * limit
     })
-    .then(res => {
+
+    promise.then(res => {
       this.setState({
         results: res
-      });
-    })
-    .catch(err => {
+      }, () => { this.reqPromise = undefined; });
+    });
+
+    promise.catch(err => {
       console.log(err);
-    })
+    }, () => { this.reqPromise = undefined; });
+
+    this.reqPromise = promise;
+  }
+  componentWillUnmount() {
+    if (this.reqPromise)
+      this.reqPromise.cancel();
   }
   render() {
     let resultsEls = [];

@@ -46,3 +46,29 @@ exports.createId = function(prefix) {
   prefix = (prefix != null) ? prefix : '_id';
   return prefix + ++idCount;
 }
+
+class CancelablePromise {
+  constructor(promise) {
+    this.promise = promise;
+    this._canceled = false;
+  }
+  then(fn) {
+    return this.promise.then((...args) => {
+      if (!this._canceled)
+        fn.apply(null, args);
+    });
+  }
+  catch(fn) {
+    return this.promise.catch((...args) => {
+      if (!this._canceled)
+        fn.apply(null, args);
+    });
+  }
+  cancel() {
+    this._canceled = true;
+  }
+}
+
+exports.makeCancelablePromise = function(promise) {
+  return new CancelablePromise(promise);
+}

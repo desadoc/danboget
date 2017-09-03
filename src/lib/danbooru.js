@@ -1,6 +1,8 @@
 var async = require('async');
 var axios = require('axios');
 
+var utils = require('./utils');
+
 var danbooruUrl = "https://danbooru.donmai.us";
 var hardQueryLimit = 100;
 
@@ -341,7 +343,7 @@ exports.posts = function(params) {
 
 	let filters = processFilterString(params.filters);
 
-	return new Promise(function(resolve, reject){
+	let promise = new Promise(function(resolve, reject){
 		let doQuery = function(query, cb) {
 			singleQuery({
 				login: params.login,
@@ -367,6 +369,8 @@ exports.posts = function(params) {
 
 		async.mapLimit(queries, 6, doQuery, doFinal);
 	});
+
+	return new utils.makeCancelablePromise(promise);
 }
 
 exports.resumeTagString = function(post, limit) {
