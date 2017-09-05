@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import './style/App.css';
 
-import SideBar      from './SideBar';
-import Search       from './Search';
-import Settings     from './Settings';
+import SideBar       from './SideBar';
+import SearchResults from './SearchResults';
+
+import utils from './lib/utils';
 
 let defaultAliases = [
   {
@@ -27,12 +27,19 @@ class App extends Component {
         login: '',
         apikey: '',
         tagAliases: []
-      }
+      },
+      search: this.getSearchParams(props.location.search)
     };
 
     this.localStorage = window.localStorage;
 
     this.handleSettingsSubmit = this.handleSettingsSubmit.bind(this);
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      search: this.getSearchParams(props.location.search)
+    });
   }
   componentDidMount() {
     let values = this.localStorage.getItem("settings");
@@ -58,6 +65,33 @@ class App extends Component {
       }
     });
   }
+  getSearchParams(queryString) {
+    let params = utils.parseQueryString(queryString);
+
+    return {
+      query: (params.query != null) ? params.query.replace(/\+/g, ' ') : '',
+      extra: (params.extra != null) ? params.extra.replace(/\+/g, ' ') : '',
+      filters:
+        (params.filters != null) ? params.filters.replace(/\+/g, ' ') : '',
+      limit: (params.limit != null) ? parseInt(params.limit, 10) : 20,
+      page:  (params.page  != null) ? parseInt(params.page, 10) : 0
+    }
+  }
+  navigate(params) {
+    let {query, extra, filters, limit, page} = params;
+
+    query = query ? query.replace(/ /g, '+') : null;
+    extra = extra ? extra.replace(/ /g, '+') : null;
+    filters = filters ? filters.replace(/ /g, '+') : null;
+    limit = (limit !== 20) ? limit : null;
+    page  = page ? page : null;
+
+    let queryStr = utils.stringifyQueryParams({query, extra, filters, limit, page});
+
+    this.props.history.push(
+      "/?" + queryStr
+    );
+  }
   handleSettingsSubmit(values) {
     if (values.tagAliases.length === 0) {
       values.tagAliases = defaultAliases;
@@ -69,28 +103,17 @@ class App extends Component {
 
     this.localStorage.setItem("settings", JSON.stringify(values));
   }
+  handleSearchSubmit(values) {
+    this.navigate(values);
+  }
   render() {
-    let settings = this.state.settings;
-
-    let SearchWProps = (props) =>
-      <Search login={settings.login} apikey={settings.apikey}
-        tagAliases={settings.tagAliases} {...props} />;
-    let SettingsWProps = (props) =>
-      <Settings values={settings} onSubmit={this.handleSettingsSubmit} />;
-
     return (
-      <Router>
-        <div className="app">
-          <div className="root-container">
-            <SideBar />
-            <Route exact path="/" render={
-              (props) => <Redirect to="/search" />
-            } />
-            <Route exact path="/search" render={SearchWProps} />
-            <Route exact path="/settings" render={SettingsWProps} />
-          </div>
+      <div className="app">
+        <div className="root-container">
+          <SideBar />
+          <SearchResults {...this.state.settings} {...this.state.search} />
         </div>
-      </Router>
+      </div>
     );
   }
 }
