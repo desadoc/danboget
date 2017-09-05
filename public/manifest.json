@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "DanboGet",
+  "name": "DanboGet - A Simple Frontend for Danbooru",
   "icons": [
     {
       "src": "favicon.ico",

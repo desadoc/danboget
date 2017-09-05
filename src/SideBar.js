@@ -32,6 +32,9 @@ class SideBar extends Component {
 
     return (
       <div className={CN("side-bar", hidden)}>
+        <div className="side-bar-title">
+          DanboGet
+        </div>
         <div className="side-bar-page">
           {this.state.selection === "search" && <SearchForm />}
           {this.state.selection === "settings" && <SettingsForm />}

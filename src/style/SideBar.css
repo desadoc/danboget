@@ -11,6 +11,16 @@
   .side-bar.hidden {
     left: -30.36%; }
 
+.side-bar-title {
+  width: 92%;
+  height: 8%;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: white;
+  padding: 0.75em 0 0.75em 1em;
+  border-bottom: 1px solid #d6d6d6;
+  background-color: #444444; }
+
 .side-bar button {
   color: white; }
 
@@ -23,11 +33,14 @@
   width: 100%;
   font-size: 1.8em;
   padding: 0.5em 0.25em;
+  margin-bottom: 0.25em;
   color: #6f95b7 !important;
   border: 0 !important;
+  border-top-right-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
   background-color: #a0bfdb !important; }
   .side-bar-menu-item.first-item {
-    margin-top: 2em; }
+    margin-top: 3em; }
   .side-bar-menu-item.selected {
     color: white !important;
     background-color: #3b5b77 !important; }
@@ -35,8 +48,9 @@
 .side-bar-page {
   display: inline-block;
   width: 92%;
-  height: 100%;
+  height: 92%;
+  overflow: auto;
   vertical-align: top;
-  padding: 0.5em 0.5em;
+  padding: 1.0em 0.5em;
   padding-right: 0.75em;
   background-color: #3b5b77; }
