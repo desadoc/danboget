@@ -1,5 +1,6 @@
 .side-bar {
   position: fixed;
+  width: 33%;
   top: 0;
   left: 0;
   height: 100%;
@@ -8,7 +9,7 @@
   transition-timing-function: ease-in-out;
   transition-duration: 0.2s; }
   .side-bar.hidden {
-    left: -600px; }
+    left: -30.36%; }
 
 .side-bar button[type=submit] {
   color: white; }
@@ -22,7 +23,7 @@
 .side-bar-menu-item {
   display: block;
   width: 100%;
-  font-size: 28px;
+  font-size: 1.8em;
   padding: 0.5em 0.25em;
   color: #6f95b7 !important;
   border: 0 !important;
@@ -35,7 +36,7 @@
 
 .side-bar-page {
   display: inline-block;
-  width: 600px;
+  width: 92%;
   height: 100%;
   vertical-align: top;
   padding: 0.5em 0.5em;

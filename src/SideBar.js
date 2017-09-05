@@ -16,10 +16,12 @@ class SideBar extends Component {
   }
   handleMenuItemClick(itemName) {
     if (this.state.selection === itemName) {
+      this.props.onChange('');
       this.setState({ selection: ''});
       return;
     }
 
+    this.props.onChange(itemName);
     this.setState({ selection: itemName});
   }
   render() {

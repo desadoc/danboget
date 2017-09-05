@@ -1,11 +1,9 @@
 
 @import 'Defs.sass'
 
-$side-bar-menu-width: 80px
-$side-bar-page-width: 600px
-
 .side-bar
   position: fixed
+  width: $side_bar_width
   top: 0
   left: 0
   height: 100%
@@ -14,7 +12,7 @@ $side-bar-page-width: 600px
   transition-timing-function: ease-in-out
   transition-duration: 0.2s
   &.hidden
-    left: -$side-bar-page-width
+    left: $side_bar_width/-100% * $side_bar_page_width
 
 .side-bar button[type=submit]
   color: white
@@ -28,7 +26,7 @@ $side-bar-page-width: 600px
 .side-bar-menu-item
   display: block
   width: 100%
-  font-size: 28px
+  font-size: 1.8em
   padding: 0.5em 0.25em
   color: $highlight_blue !important
   border: 0 !important
@@ -41,7 +39,7 @@ $side-bar-page-width: 600px
 
 .side-bar-page
   display: inline-block
-  width: $side-bar-page-width
+  width: $side_bar_page_width
   height: 100%
   vertical-align: top
   padding: 0.5em 0.5em

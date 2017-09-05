@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './style/App.css';
+import CN from 'classnames';
 
 import SideBar       from './SideBar';
 import SearchResults from './SearchResults';
@@ -30,7 +31,8 @@ class App extends Component {
         apikey: '',
         tagAliases: []
       },
-      search: this.getSearchParams(props.location.search)
+      search: this.getSearchParams(props.location.search),
+      sideBarStatus: ''
     };
 
     this.localStorage = window.localStorage;
@@ -40,6 +42,7 @@ class App extends Component {
     this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
     this.handleGoExactPageClick = this.handleGoExactPageClick.bind(this);
     this.handleNextPageClick = this.handleNextPageClick.bind(this);
+    this.handleSideBarChange = this.handleSideBarChange.bind(this);
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -125,6 +128,9 @@ class App extends Component {
   handleNextPageClick() {
     this.navigateToPage(this.state.search.page+1);
   }
+  handleSideBarChange(selection) {
+    this.setState({ sideBarStatus: selection });
+  }
   render() {
     const SearchFormWProps = (props) =>
       <SearchForm {...this.state.search}
@@ -133,13 +139,17 @@ class App extends Component {
       <Settings {...this.state.settings}
         onSubmit={this.handleSettingsSubmit} />;
 
+    const squeezeAppRight =
+      this.state.sideBarStatus ? "squeezed-right" : null;
+
     return (
       <div className="app">
-        <div className="root-container">
+        <div className={CN("root-container", squeezeAppRight)}>
           <SideBar pages={{
             search: SearchFormWProps, settings: SettingsWProps
-          }} />
-          <SearchResults {...this.state.settings} {...this.state.search}
+          }} onChange={this.handleSideBarChange} />
+          <SearchResults
+            {...this.state.settings} {...this.state.search}
             onPreviousPageClick={this.handlePreviousPageClick}
             onGoExactPageClick={this.handleGoExactPageClick}
             onNextPageClick={this.handleNextPageClick} />

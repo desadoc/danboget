@@ -1,5 +1,7 @@
 .search-results {
-  padding: 1em 0; }
+  padding: 1em 0;
+  margin: 0 auto;
+  width: 960px; }
 
 .search-results-group {
   border: 2px solid #f4f4f4;

@@ -155,7 +155,7 @@ class SearchResults extends Component {
     }
 
     return (
-      <div className="search-results">
+      <div className={CN("search-results", this.props.className)}>
         { resultsEls }
         {
           resultsEls.length > 0 &&
