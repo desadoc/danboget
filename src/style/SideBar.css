@@ -3,7 +3,12 @@
   top: 0;
   left: 0;
   height: 100%;
-  color: white; }
+  color: white;
+  transition-property: left;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.2s; }
+  .side-bar.hidden {
+    left: -600px; }
 
 .side-bar button[type=submit] {
   color: white; }

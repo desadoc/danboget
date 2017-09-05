@@ -4,6 +4,8 @@ import CN from 'classnames';
 
 import Image  from './components/Image';
 
+import SearchNav from './SearchNav';
+
 let danbo = require('./lib/danbooru');
 
 function expandAliases(query, aliasesMap) {
@@ -155,6 +157,14 @@ class SearchResults extends Component {
     return (
       <div className="search-results">
         { resultsEls }
+        {
+          resultsEls.length > 0 &&
+          <SearchNav page={this.props.page}
+            onPreviousPageClick={this.props.onPreviousPageClick}
+            onGoExactPageClick={this.props.onGoExactPageClick}
+            onNextPageClick={this.props.onNextPageClick}
+          />
+        }
       </div>
     );
   }

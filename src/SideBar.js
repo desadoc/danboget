@@ -26,15 +26,14 @@ class SideBar extends Component {
     const SearchForm = this.props.pages.search;
     const SettingsForm = this.props.pages.settings;
 
+    const hidden = this.state.selection ? null : "hidden";
+
     return (
-      <div className="side-bar">
-        {
-          this.state.selection &&
-          <div className="side-bar-page">
-            {this.state.selection === "search" && <SearchForm />}
-            {this.state.selection === "settings" && <SettingsForm />}
-          </div>
-        }
+      <div className={CN("side-bar", hidden)}>
+        <div className="side-bar-page">
+          {this.state.selection === "search" && <SearchForm />}
+          {this.state.selection === "settings" && <SettingsForm />}
+        </div>
         <div className="side-bar-menu">
           <Button className={CN(
               "side-bar-menu-item", "first-item",

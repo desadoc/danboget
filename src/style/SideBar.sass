@@ -10,6 +10,11 @@ $side-bar-page-width: 600px
   left: 0
   height: 100%
   color: white
+  transition-property: left
+  transition-timing-function: ease-in-out
+  transition-duration: 0.2s
+  &.hidden
+    left: -$side-bar-page-width
 
 .side-bar button[type=submit]
   color: white

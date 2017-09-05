@@ -21,13 +21,14 @@ class SearchNav extends Component {
       page: nextProps.page
     });
   }
-  handleChange(name, value) {
+  handleChange(value) {
     this.setState({
       page: value
     });
   }
   handlePageSubmit() {
-    this.props.onGoExactPageClick(this.state.page);
+    if (this.props.onGoExactPageClick)
+      this.props.onGoExactPageClick(this.state.page);
   }
   render() {
     return (
@@ -36,7 +37,7 @@ class SearchNav extends Component {
           <i className="fa fa-angle-left" aria-hidden="true"></i>
         </Button>
         <Form className="search-nav-item" onSubmit={this.handlePageSubmit}>
-          <Input name="page" type="number"
+          <Input name="page" dataKey="page" type="number"
             value={this.state.page} onChange={this.handleChange} />
         </Form>
         <Button className="search-nav-item" onClick={this.handlePageSubmit}>go</Button>

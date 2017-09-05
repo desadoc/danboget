@@ -37,6 +37,9 @@ class App extends Component {
 
     this.handleSettingsSubmit = this.handleSettingsSubmit.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
+    this.handlePreviousPageClick = this.handlePreviousPageClick.bind(this);
+    this.handleGoExactPageClick = this.handleGoExactPageClick.bind(this);
+    this.handleNextPageClick = this.handleNextPageClick.bind(this);
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -94,6 +97,11 @@ class App extends Component {
       "/?" + queryStr
     );
   }
+  navigateToPage(pageNumber) {
+    let params = this.state.search;
+    params.page = (pageNumber > 0) ? pageNumber : 0;
+    this.navigate(params);
+  }
   handleSettingsSubmit(values) {
     if (values.tagAliases.length === 0) {
       values.tagAliases = defaultAliases;
@@ -107,6 +115,15 @@ class App extends Component {
   }
   handleSearchSubmit(values) {
     this.navigate(values);
+  }
+  handlePreviousPageClick() {
+    this.navigateToPage(this.state.search.page-1);
+  }
+  handleGoExactPageClick(pageNumber) {
+    this.navigateToPage(pageNumber);
+  }
+  handleNextPageClick() {
+    this.navigateToPage(this.state.search.page+1);
   }
   render() {
     const SearchFormWProps = (props) =>
@@ -122,7 +139,10 @@ class App extends Component {
           <SideBar pages={{
             search: SearchFormWProps, settings: SettingsWProps
           }} />
-          <SearchResults {...this.state.settings} {...this.state.search} />
+          <SearchResults {...this.state.settings} {...this.state.search}
+            onPreviousPageClick={this.handlePreviousPageClick}
+            onGoExactPageClick={this.handleGoExactPageClick}
+            onNextPageClick={this.handleNextPageClick} />
         </div>
       </div>
     );
