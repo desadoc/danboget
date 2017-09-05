@@ -62,37 +62,40 @@ class SearchForm extends Component {
   render() {
     return (
       <Form className="search-form" onSubmit={this.handleSubmit}>
-        <div className="form-row">
-          <div className="input-group search-form-query">
-            <Label htmlFor={this.state.query.id}>Query:</Label>
-            <TextArea id={this.state.query.id}
-              name="query" rows="10" onChange={this.handleChange}
-              dataKey="query" value={this.state.query.value} />
-          </div>
-        </div>
-
-        <div className="form-row">
-          <div className="input-group search-form-extra">
-            <Label htmlFor={this.state.extra.id}>Extra:</Label>
-            <Input type="text" name="extra" dataKey="extra"
-              value={this.state.extra.value} onChange={this.handleChange} />
-          </div>
-          <div className="input-group search-form-limit">
-            <Label htmlFor={this.state.limit.id}>Limit:</Label>
-            <Input type="number" name="limit" dataKey="limit"
-              value={this.state.limit.value} onChange={this.handleChange} />
+        <div className="form-section">
+          <div className="form-section-title">Search</div>
+          <div className="form-row">
+            <div className="input-group search-form-query">
+              <Label htmlFor={this.state.query.id}>Query:</Label>
+              <TextArea id={this.state.query.id}
+                name="query" rows="10" onChange={this.handleChange}
+                dataKey="query" value={this.state.query.value} />
+            </div>
           </div>
 
-        </div>
+          <div className="form-row">
+            <div className="input-group search-form-extra">
+              <Label htmlFor={this.state.extra.id}>Extra:</Label>
+              <Input type="text" name="extra" dataKey="extra"
+                value={this.state.extra.value} onChange={this.handleChange} />
+            </div>
+            <div className="input-group search-form-limit">
+              <Label htmlFor={this.state.limit.id}>Limit:</Label>
+              <Input type="number" name="limit" dataKey="limit"
+                value={this.state.limit.value} onChange={this.handleChange} />
+            </div>
 
-        <div className="form-row">
-          <div className="input-group search-form-filters">
-            <Label htmlFor={this.state.filters.id}>Filters:</Label>
-            <Input type="text" name="filters" dataKey="filters"
-              value={this.state.filters.value} onChange={this.handleChange} />
           </div>
-          <div className="input-group search-form-submit-btn">
-            <Button type="submit">Search</Button>
+
+          <div className="form-row">
+            <div className="input-group search-form-filters">
+              <Label htmlFor={this.state.filters.id}>Filters:</Label>
+              <Input type="text" name="filters" dataKey="filters"
+                value={this.state.filters.value} onChange={this.handleChange} />
+            </div>
+            <div className="input-group search-form-submit-btn">
+              <Button type="submit">Search</Button>
+            </div>
           </div>
         </div>
       </Form>

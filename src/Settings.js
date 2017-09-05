@@ -29,8 +29,6 @@ class Settings extends Component {
   constructor(props) {
     super(props);
 
-    console.log(JSON.stringify(props));
-
     this.state = {
       dirty: true,
       login: {

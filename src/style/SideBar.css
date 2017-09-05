@@ -3,23 +3,36 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: #6f95b7; }
+  color: white; }
+
+.side-bar button[type=submit] {
+  color: white; }
+  .side-bar button[type=submit]:hover {
+    background-color: #6f95b7; }
 
 .side-bar-menu {
   display: inline-block;
-  width: 80px; }
+  height: 100%; }
 
 .side-bar-menu-item {
   display: block;
-  font-size: 32px;
-  margin: 1.0em 0.5em;
-  color: #a0bfdb;
-  border: 0 !important; }
+  width: 100%;
+  font-size: 28px;
+  padding: 0.5em 0.25em;
+  color: #6f95b7 !important;
+  border: 0 !important;
+  background-color: #a0bfdb !important; }
+  .side-bar-menu-item.first-item {
+    margin-top: 2em; }
   .side-bar-menu-item.selected {
-    color: white; }
+    color: white !important;
+    background-color: #3b5b77 !important; }
 
 .side-bar-page {
   display: inline-block;
   width: 600px;
   height: 100%;
-  vertical-align: top; }
+  vertical-align: top;
+  padding: 0.5em 0.5em;
+  padding-right: 0.75em;
+  background-color: #3b5b77; }

@@ -28,9 +28,16 @@ class SideBar extends Component {
 
     return (
       <div className="side-bar">
+        {
+          this.state.selection &&
+          <div className="side-bar-page">
+            {this.state.selection === "search" && <SearchForm />}
+            {this.state.selection === "settings" && <SettingsForm />}
+          </div>
+        }
         <div className="side-bar-menu">
           <Button className={CN(
-              "side-bar-menu-item",
+              "side-bar-menu-item", "first-item",
               this.state.selection === "search" && "selected"
             )}
             type="button" onClick={() => this.handleMenuItemClick("search")}>
@@ -44,14 +51,6 @@ class SideBar extends Component {
             <i className="fa fa-cog fa-2" aria-hidden="true"></i>
           </Button>
         </div>
-        {
-          this.state.selection &&
-          <div className="side-bar-page">
-            {this.state.selection === "search" && <SearchForm />}
-            {this.state.selection === "settings" && <SettingsForm />}
-          </div>
-        }
-
       </div>
     );
   }
