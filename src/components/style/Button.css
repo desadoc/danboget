@@ -3,6 +3,8 @@
   border: 1px solid #d6d6d6;
   border-radius: 0;
   height: 2.25em; }
+  .button::-moz-focus-inner {
+    border: 0; }
 
 .button:hover {
   border-color: #f4f4f4; }
