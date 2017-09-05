@@ -5,8 +5,21 @@
   height: 100%;
   background-color: #6f95b7; }
 
-.side-bar-item {
+.side-bar-menu {
+  display: inline-block;
+  width: 80px; }
+
+.side-bar-menu-item {
   display: block;
   font-size: 32px;
   margin: 1.0em 0.5em;
-  color: white; }
+  color: #a0bfdb;
+  border: 0 !important; }
+  .side-bar-menu-item.selected {
+    color: white; }
+
+.side-bar-page {
+  display: inline-block;
+  width: 600px;
+  height: 100%;
+  vertical-align: top; }

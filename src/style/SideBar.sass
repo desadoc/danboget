@@ -1,6 +1,9 @@
 
 @import 'Defs.sass'
 
+$side-bar-menu-width: 80px
+$side-bar-page-width: 600px
+
 .side-bar
   position: fixed
   top: 0
@@ -8,8 +11,21 @@
   height: 100%
   background-color: $highlight_blue
 
-.side-bar-item
+.side-bar-menu
+  display: inline-block
+  width: $side-bar-menu-width
+
+.side-bar-menu-item
   display: block
   font-size: 32px
   margin: 1.0em 0.5em
-  color: white
+  color: $default_blue
+  border: 0 !important
+  &.selected
+    color: white
+
+.side-bar-page
+  display: inline-block
+  width: $side-bar-page-width
+  height: 100%
+  vertical-align: top

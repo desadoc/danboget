@@ -3,6 +3,8 @@ import './style/App.css';
 
 import SideBar       from './SideBar';
 import SearchResults from './SearchResults';
+import SearchForm    from './SearchForm';
+import Settings      from './Settings';
 
 import utils from './lib/utils';
 
@@ -107,10 +109,17 @@ class App extends Component {
     this.navigate(values);
   }
   render() {
+    const SearchFormWProps = (props) =>
+      <SearchForm {...this.state.search} />;
+    const SettingsWProps = (props) =>
+      <Settings {...this.state.settings} />;
+
     return (
       <div className="app">
         <div className="root-container">
-          <SideBar />
+          <SideBar pages={{
+            search: SearchFormWProps, settings: SettingsWProps
+          }} />
           <SearchResults {...this.state.settings} {...this.state.search} />
         </div>
       </div>

@@ -1,17 +1,57 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import './style/SideBar.css';
+import CN from 'classnames';
+
+import Button from './components/Button';
 
 class SideBar extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selection: ''
+    };
+
+    this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+  }
+  handleMenuItemClick(itemName) {
+    if (this.state.selection === itemName) {
+      this.setState({ selection: ''});
+      return;
+    }
+
+    this.setState({ selection: itemName});
+  }
   render() {
+    const SearchForm = this.props.pages.search;
+    const SettingsForm = this.props.pages.settings;
+
     return (
       <div className="side-bar">
-        <Link className="side-bar-item" to="/search">
-          <i className="fa fa-search fa-2" aria-hidden="true"></i>
-        </Link>
-        <Link className="side-bar-item" to="/settings">
-          <i className="fa fa-cog fa-2" aria-hidden="true"></i>
-        </Link>
+        <div className="side-bar-menu">
+          <Button className={CN(
+              "side-bar-menu-item",
+              this.state.selection === "search" && "selected"
+            )}
+            type="button" onClick={() => this.handleMenuItemClick("search")}>
+            <i className="fa fa-search fa-2" aria-hidden="true"></i>
+          </Button>
+          <Button className={CN(
+              "side-bar-menu-item",
+              this.state.selection === "settings" && "selected"
+            )}
+            type="button" onClick={() => this.handleMenuItemClick("settings")}>
+            <i className="fa fa-cog fa-2" aria-hidden="true"></i>
+          </Button>
+        </div>
+        {
+          this.state.selection &&
+          <div className="side-bar-page">
+            {this.state.selection === "search" && <SearchForm />}
+            {this.state.selection === "settings" && <SettingsForm />}
+          </div>
+        }
+
       </div>
     );
   }

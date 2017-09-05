@@ -29,17 +29,19 @@ class Settings extends Component {
   constructor(props) {
     super(props);
 
+    console.log(JSON.stringify(props));
+
     this.state = {
       dirty: true,
       login: {
         id: utils.createId(),
-        value: props.values.login
+        value: props.login
       },
       apikey: {
         id: utils.createId(),
-        value: props.values.apikey
+        value: props.apikey
       },
-      tagAliases: tagAliasesToControlData(props.values.tagAliases)
+      tagAliases: tagAliasesToControlData(props.tagAliases)
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -50,10 +52,10 @@ class Settings extends Component {
   }
   componentWillReceiveProps(props) {
     this.setState(state => {
-      state.login.value = props.values.login;
-      state.apikey.value = props.values.apikey;
+      state.login.value = props.login;
+      state.apikey.value = props.apikey;
       state.tagAliases =
-        tagAliasesToControlData(props.values.tagAliases);
+        tagAliasesToControlData(props.tagAliases);
       return state;
     });
   }
