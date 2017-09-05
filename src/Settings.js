@@ -30,7 +30,7 @@ class Settings extends Component {
     super(props);
 
     this.state = {
-      dirty: true,
+      dirty: false,
       login: {
         id: utils.createId(),
         value: props.login
@@ -50,6 +50,7 @@ class Settings extends Component {
   }
   componentWillReceiveProps(props) {
     this.setState(state => {
+      state.dirty = false;
       state.login.value = props.login;
       state.apikey.value = props.apikey;
       state.tagAliases =
@@ -57,16 +58,17 @@ class Settings extends Component {
       return state;
     });
   }
-  handleChange(name, value) {
+  handleChange(value, dataKey) {
     this.setState(state => {
       state.dirty = true;
-      state[name].value = value;
+      state[dataKey].value = value;
       return state;
     });
   }
   handleTagAliasChange(value, dataKey) {
     this.setState(state => {
       state.tagAliases[dataKey.i][dataKey.f].value = value;
+      state.dirty = true;
       return state;
     });
   }
@@ -86,22 +88,27 @@ class Settings extends Component {
     for (let key in tagAliasesMap) {
       tagAliases.push({name: key, tags: tagAliasesMap[key]});
     }
-
-    this.props.onSubmit({
-      login: this.state.login.value,
-      apikey: this.state.apikey.value,
-      tagAliases: tagAliases
-    });
-    this.setState({ dirty: false });
+    this.setState(
+      { dirty: false },
+      () => {
+        this.props.onSubmit({
+          login: this.state.login.value,
+          apikey: this.state.apikey.value,
+          tagAliases: tagAliases
+        });
+      }
+    );
   }
   handleTagAliasRemove(index) {
     this.setState(state => {
+      state.dirty = true;
       state.tagAliases.splice(index, 1);
       return state;
     });
   }
   handleTagAliasAdd() {
     this.setState(state => {
+      state.dirty = true;
       state.tagAliases.push({
         name : {
           id: utils.createId(),
@@ -158,7 +165,8 @@ class Settings extends Component {
             <div className="form-row">
               <div className="input-group">
                 <Label htmlFor={this.state.login.id}>Login:</Label>
-                <Input id={this.state.login.id} type="text" name="login"
+                <Input id={this.state.login.id}
+                  type="text" name="login" dataKey="login"
                   value={this.state.login.value} onChange={this.handleChange} />
               </div>
             </div>
@@ -166,7 +174,8 @@ class Settings extends Component {
             <div className="form-row">
               <div className="input-group">
                 <Label htmlFor={this.state.apikey.id}>Apikey:</Label>
-                <Input id={this.state.apikey.id} type="text" name="apikey"
+                <Input id={this.state.apikey.id}
+                  type="text" name="apikey"  dataKey="apikey"
                   value={this.state.apikey.value} onChange={this.handleChange} />
               </div>
             </div>

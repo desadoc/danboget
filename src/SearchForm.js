@@ -66,7 +66,7 @@ class SearchForm extends Component {
           <div className="form-section-title">Search</div>
           <div className="form-row">
             <div className="input-group search-form-query">
-              <Label htmlFor={this.state.query.id}>Query:</Label>
+              <Label htmlFor={this.state.query.id}>Queries:</Label>
               <TextArea id={this.state.query.id}
                 name="query" rows="10" onChange={this.handleChange}
                 dataKey="query" value={this.state.query.value} />
