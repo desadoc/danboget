@@ -11,10 +11,8 @@
   .side-bar.hidden {
     left: -30.36%; }
 
-.side-bar button[type=submit] {
+.side-bar button {
   color: white; }
-  .side-bar button[type=submit]:hover {
-    background-color: #6f95b7; }
 
 .side-bar-menu {
   display: inline-block;
