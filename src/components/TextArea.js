@@ -20,6 +20,7 @@ class TextArea extends Component {
         name={this.props.name}
         onChange={this.handleChange}
         value={this.props.value}
+        rows={this.props.rows}
       />
     );
   }

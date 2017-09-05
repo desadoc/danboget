@@ -13,18 +13,13 @@
   width: 100%; }
 
 .search-form .search-form-query {
-  width: 95%; }
-
-.search-form .search-form-mode-toggle {
-  width: 5%; }
-  .search-form .search-form-mode-toggle button {
-    width: 100%; }
+  width: 100%; }
 
 .search-form .search-form-extra {
-  width: 84%; }
+  width: 75%; }
 
 .search-form .search-form-limit {
-  width: 16%; }
+  width: 25%; }
 
 .search-form .search-form-filters {
   width: 84%; }

@@ -65,22 +65,9 @@ class SearchForm extends Component {
         <div className="form-row">
           <div className="input-group search-form-query">
             <Label htmlFor={this.state.query.id}>Query:</Label>
-            { (this.props.mode === "single") ?
-              <Input type="text" name="query" dataKey="query"
-                value={this.state.query.value} onChange={this.handleChange} /> :
-              <TextArea name="query" rows="10" onChange={this.handleChange}
-                dataKey="query" value={this.state.query.value} />
-            }
-
-          </div>
-          <div className="input-group search-form-mode-toggle">
-            <Button type="button" onClick={this.props.onToggleClick}>
-              {
-                (this.props.mode === "single") ?
-                <i className="fa fa-sort-desc" aria-hidden="true"></i> :
-                <i className="fa fa-sort-asc" aria-hidden="true"></i>
-              }
-            </Button>
+            <TextArea id={this.state.query.id}
+              name="query" rows="10" onChange={this.handleChange}
+              dataKey="query" value={this.state.query.value} />
           </div>
         </div>
 

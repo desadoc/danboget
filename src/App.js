@@ -110,9 +110,11 @@ class App extends Component {
   }
   render() {
     const SearchFormWProps = (props) =>
-      <SearchForm {...this.state.search} />;
+      <SearchForm {...this.state.search}
+        onSubmit={this.handleSearchSubmit}/>;
     const SettingsWProps = (props) =>
-      <Settings {...this.state.settings} />;
+      <Settings {...this.state.settings}
+        onSubmit={this.handleSettingsSubmit} />;
 
     return (
       <div className="app">
