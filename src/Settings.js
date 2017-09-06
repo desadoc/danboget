@@ -5,6 +5,7 @@ import Form     from './components/Form';
 import Input    from './components/Input';
 import Label    from './components/Label';
 import Button   from './components/Button';
+import AlertContainer from './components/AlertContainer';
 
 import utils from './lib/utils';
 
@@ -41,6 +42,8 @@ class Settings extends Component {
       },
       tagAliases: tagAliasesToControlData(props.tagAliases)
     };
+
+    AlertContainer.init(this);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -80,7 +83,17 @@ class Settings extends Component {
       let name = this.state.tagAliases[i].name.value;
       let tags = this.state.tagAliases[i].tags.value;
 
-      if (!name || !tags) { continue; }
+      if (!name || !tags) {
+        AlertContainer.addMessage(
+          this, {
+            text: "Tag Aliases names and definitions can't be empty.",
+            type: "error",
+            duration: 3000
+          }
+        );
+
+        return;
+      }
 
       tagAliasesMap[name] = tags;
     }
@@ -158,6 +171,7 @@ class Settings extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <div className="settings">
+          {AlertContainer.present(this)}
 
           <div className="form-section">
             <div className="form-section-title">Credentials</div>

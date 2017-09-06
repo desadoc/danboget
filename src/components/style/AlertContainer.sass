@@ -1,0 +1,26 @@
+
+@import '../../style/Defs.sass'
+
+.alert-container
+  padding: 0.5em
+
+.alert
+  position: relative
+  width: 100%
+  padding: 1em 0.5em
+  margin: 0.25em 0
+  font-weight: lighter
+  color: white
+  &.success
+    background-color: $light_green
+  &.warning
+    background-color: $light_yellow
+  &.info
+    background-color: $light_blue
+  &.error
+    background-color: $light_red
+  .dismiss-button
+    position: absolute
+    top: 0
+    right: 0
+    border: 0
