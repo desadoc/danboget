@@ -17,6 +17,7 @@ function convertPostEntries(posts) {
 		post.tags_general = post.tag_string_general.split(' ');
 
 		post.complete_large_url = danbooruUrl + post.large_file_url;
+		post.complete_large_proxy_url ='/api/proxy' + post.large_file_url;
     post.complete_preview_url = danbooruUrl + post.preview_file_url;
 
 		var imgWidth = post.image_width

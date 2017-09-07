@@ -3,6 +3,8 @@ import './style/SearchResults.css';
 import CN from 'classnames';
 
 import Image  from './components/Image';
+import Button  from './components/Button';
+import Modal  from './components/Modal';
 
 import SearchNav from './SearchNav';
 
@@ -30,12 +32,21 @@ class SearchResults extends Component {
     this.state = {
       results: []
     }
+
+    this.handleDetailsClick = this.handleDetailsClick.bind(this);
   }
   componentDidMount() {
     this.fetchPosts(this.props);
   }
   componentWillReceiveProps(nextProps) {
-    this.fetchPosts(nextProps);
+    this.setState({
+      modalPreview: null
+    }, () => this.fetchPosts(nextProps));
+  }
+  handleDetailsClick(params) {
+    this.setState({
+      modalPreview: params
+    });
   }
   fetchPosts(props) {
     let login = props.login;
@@ -125,14 +136,20 @@ class SearchResults extends Component {
         };
 
         postsEls.push(
-          <a key={post.id} target="_blank" href={post.complete_post_url}
-            className={CN("item", statusClasses)}
-          >
-            <div className="search-results-item-image">
-              <Image alt={danbo.resumeTagString(post)}
-                key={post.id} src={post.complete_preview_url} />
-            </div>
-          </a>
+          <div key={post.id}
+            className={CN("search-results-item", statusClasses)}>
+            <a target="_blank" href={post.complete_post_url}>
+              <div className="search-results-item-image">
+                <Image alt={danbo.resumeTagString(post)}
+                  src={post.complete_preview_url} />
+              </div>
+            </a>
+            <Button className="search-results-item-details" type="button"
+              dataKey={{groupIndex: i, postIndex: j}}
+              onClick={this.handleDetailsClick}>
+              <i className="fa fa-search-plus fa-1" aria-hidden="true"></i>
+            </Button>
+          </div>
         );
       }
 
@@ -143,10 +160,10 @@ class SearchResults extends Component {
           </div>
           {
             (postsEls.length > 0) ?
-            <div className="search-results-items">
+            <div className="search-results-container">
               { postsEls }
             </div> :
-            <div className="search-results-items empty">
+            <div className="search-results-container empty">
               No results
             </div>
           }
@@ -154,17 +171,36 @@ class SearchResults extends Component {
       );
     }
 
+    let modalPreviewEl = null;
+    if (this.state.modalPreview) {
+      const groupIndex = this.state.modalPreview.groupIndex;
+      const postIndex = this.state.modalPreview.postIndex;
+      const post = this.state.results[groupIndex].posts[postIndex];
+
+      console.log(post.complete_large_proxy_url);
+
+      modalPreviewEl =
+        <Modal className="search-results-modal-preview"
+          onExitClick={() => this.setState({ modalPreview: null })}>
+          <Image alt={danbo.resumeTagString(post)}
+            src={post.complete_large_proxy_url} />
+        </Modal>;
+    }
+
     return (
       <div className={CN("search-results", this.props.className)}>
-        { resultsEls }
-        {
-          resultsEls.length > 0 &&
-          <SearchNav page={this.props.page}
-            onPreviousPageClick={this.props.onPreviousPageClick}
-            onGoExactPageClick={this.props.onGoExactPageClick}
-            onNextPageClick={this.props.onNextPageClick}
-          />
-        }
+        <div className="search-results-wrapper">
+          { resultsEls }
+          {
+            resultsEls.length > 0 &&
+            <SearchNav page={this.props.page}
+              onPreviousPageClick={this.props.onPreviousPageClick}
+              onGoExactPageClick={this.props.onGoExactPageClick}
+              onNextPageClick={this.props.onNextPageClick}
+            />
+          }
+        </div>
+        { modalPreviewEl }
       </div>
     );
   }

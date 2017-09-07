@@ -2,6 +2,10 @@
 @import 'Defs.sass'
 
 .search-results
+  height: 100%
+  overflow-y: auto
+
+.search-results-wrapper
   padding: 1em 0
   margin: 0 auto
   width: 960px
@@ -12,7 +16,7 @@
   margin-bottom: 1em
   padding: 0.5em
 
-.search-results-items
+.search-results-container
   display: flex
   flex-flow: wrap
   &.empty
@@ -21,17 +25,18 @@
     text-align: center
     display: inline-block
 
-.search-results-items .item
+.search-results-item
   flex-basis: 18%
   flex-grow: 0
   justify-content: flex-start
+  position: relative
   max-width: 18%
   height: 180px
   overflow: hidden
   margin: 0.5em 1%
   border: 3px solid $default_grey
 
-.search-results-items .item
+.search-results-item
   &.pending
     border-color: $default_blue
     &.parent
@@ -45,10 +50,10 @@
   &.deleted
     border-color: $default_red
 
-.search-results-items .item:hover
+.search-results-item:hover
   border-color: $highlight_grey
 
-.search-results-items .item:hover
+.search-results-item:hover
   &.pending
     border-color: $highlight_blue
     &.parent
@@ -65,3 +70,19 @@
 .search-results-item-image
   margin: 12px 0
   text-align: center
+
+.search-results-item-details
+  position: absolute
+  bottom: 0
+  right: 0
+  border: 0
+  color: white
+  background: rgba(1.0, 1.0, 1.0, 0.2)
+  &:hover
+    background: rgba(1.0, 1.0, 1.0, 0.4)
+
+.search-results-modal-preview .modal-panel
+  text-align: center
+
+.search-results-modal-preview .image
+  max-height: 100%

@@ -21,5 +21,14 @@
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+  },
+  "proxy": {
+    "/api": {
+      "target": {
+        "host": "localhost",
+        "protocol": "http:",
+        "port": 3001
+      }
+    }
   }
 }
