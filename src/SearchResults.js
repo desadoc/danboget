@@ -39,6 +39,24 @@ class SearchResults extends Component {
     this.fetchPosts(this.props);
   }
   componentWillReceiveProps(nextProps) {
+    let fetch = false;
+
+    for (let key in nextProps) {
+      if (!nextProps.hasOwnProperty(key))
+        continue;
+
+      if (this.props[key] !== nextProps[key]) {
+        console.log(
+          key + ': ' + JSON.stringify(this.props[key]) +
+          ', ' + JSON.stringify(nextProps[key])
+        );
+        fetch = true;
+        break;
+      }
+    }
+
+    if (!fetch) return;
+
     this.setState({
       modalPreview: null
     }, () => this.fetchPosts(nextProps));
@@ -176,8 +194,6 @@ class SearchResults extends Component {
       const groupIndex = this.state.modalPreview.groupIndex;
       const postIndex = this.state.modalPreview.postIndex;
       const post = this.state.results[groupIndex].posts[postIndex];
-
-      console.log(post.complete_large_proxy_url);
 
       modalPreviewEl =
         <Modal className="search-results-modal-preview"
