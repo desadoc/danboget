@@ -29,6 +29,7 @@ class App extends Component {
       settings: {
         login: '',
         apikey: '',
+        slideshowInterval: 5,
         tagAliases: []
       },
       search: this.getSearchParams(props.location.search),

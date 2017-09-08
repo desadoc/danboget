@@ -40,6 +40,10 @@ class Settings extends Component {
         id: utils.createId(),
         value: props.apikey
       },
+      slideshowInterval: {
+        id: utils.createId(),
+        value: props.slideshowInterval
+      },
       tagAliases: tagAliasesToControlData(props.tagAliases)
     };
 
@@ -56,6 +60,7 @@ class Settings extends Component {
       state.dirty = false;
       state.login.value = props.login;
       state.apikey.value = props.apikey;
+      state.slideshowInterval.value = props.slideshowInterval;
       state.tagAliases =
         tagAliasesToControlData(props.tagAliases);
       return state;
@@ -107,6 +112,7 @@ class Settings extends Component {
         this.props.onSubmit({
           login: this.state.login.value,
           apikey: this.state.apikey.value,
+          slideshowInterval: this.state.slideshowInterval.value,
           tagAliases: tagAliases
         });
       }
@@ -191,6 +197,22 @@ class Settings extends Component {
                 <Input id={this.state.apikey.id}
                   type="text" name="apikey"  dataKey="apikey"
                   value={this.state.apikey.value} onChange={this.handleChange} />
+              </div>
+            </div>
+          </div>
+
+          <div className="form-section">
+            <div className="form-section-title">Misc</div>
+
+            <div className="form-row">
+              <div className="input-group slideshow-interval">
+                <Label htmlFor={this.state.slideshowInterval.id}>
+                  Slideshow Interval:
+                </Label>
+                <Input id={this.state.slideshowInterval.id} type="number"
+                  name="slideshowInterval" dataKey="slideshowInterval"
+                  value={this.state.slideshowInterval.value}
+                  onChange={this.handleChange} />
               </div>
             </div>
           </div>

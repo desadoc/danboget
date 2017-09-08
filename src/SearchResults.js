@@ -34,6 +34,7 @@ class SearchResults extends Component {
     }
 
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
+    this.handleSlideshowClick = this.handleSlideshowClick.bind(this);
   }
   componentDidMount() {
     this.fetchPosts(this.props);
@@ -45,11 +46,10 @@ class SearchResults extends Component {
       if (!nextProps.hasOwnProperty(key))
         continue;
 
+      if (key == "slideshowInterval")
+        continue;
+
       if (this.props[key] !== nextProps[key]) {
-        console.log(
-          key + ': ' + JSON.stringify(this.props[key]) +
-          ', ' + JSON.stringify(nextProps[key])
-        );
         fetch = true;
         break;
       }
@@ -65,6 +65,36 @@ class SearchResults extends Component {
     this.setState({
       modalPreview: params
     });
+  }
+  handleSlideshowClick() {
+    if (this.state.slideshowTimer) {
+      clearInterval(this.state.slideshowTimer);
+      this.setState({ slideshowTimer: null });
+    } else {
+      let timerId = setInterval(() => {
+        this.setState(state => {
+          let postIndex = state.modalPreview.postIndex;
+          let groupIndex = state.modalPreview.groupIndex;
+
+          postIndex++;
+          if (postIndex >= state.results[groupIndex].posts.length) {
+            postIndex = 0;
+            groupIndex++;
+
+            if (groupIndex >= state.results.length) {
+              clearInterval(this.state.slideshowTimer);
+              state.modalPreview = null;
+              state.slideshowTimer = null;
+              return state;
+            }
+          }
+
+          state.modalPreview = { postIndex, groupIndex };
+          return state;
+        });
+      }, this.props.slideshowInterval * 1000);
+      this.setState({ slideshowTimer: timerId });
+    }
   }
   fetchPosts(props) {
     let login = props.login;
@@ -200,6 +230,10 @@ class SearchResults extends Component {
           onExitClick={() => this.setState({ modalPreview: null })}>
           <Image alt={danbo.resumeTagString(post)}
             src={post.complete_large_proxy_url} />
+          <Button className="slideshow-toggle" type="button"
+            onClick={this.handleSlideshowClick}>
+            {this.state.slideshowTimer ? "Stop Slideshow" : "Start Slideshow"}
+          </Button>
         </Modal>;
     }
 

@@ -8,6 +8,13 @@
 .settings button[type=submit] {
   width: 6em; }
 
+.slideshow-interval .input-label {
+  display: inline-block;
+  width: 10em; }
+
+.slideshow-interval .input {
+  width: 4em; }
+
 .settings-tagaliases-name {
   width: 25%; }
   .settings-tagaliases-name .input {
