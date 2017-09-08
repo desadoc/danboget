@@ -32,6 +32,8 @@
   overflow: hidden;
   margin: 0.5em 1%;
   border: 3px solid #f4f4f4; }
+  .search-results-item a {
+    outline: 0; }
 
 .search-results-item.pending {
   border-color: #a0bfdb; }
