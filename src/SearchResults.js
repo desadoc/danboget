@@ -35,6 +35,7 @@ class SearchResults extends Component {
 
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
     this.handleSlideshowClick = this.handleSlideshowClick.bind(this);
+    this.handlePreviewExit = this.handlePreviewExit.bind(this);
   }
   componentDidMount() {
     this.fetchPosts(this.props);
@@ -46,7 +47,7 @@ class SearchResults extends Component {
       if (!nextProps.hasOwnProperty(key))
         continue;
 
-      if (key == "slideshowInterval")
+      if (key === "slideshowInterval")
         continue;
 
       if (this.props[key] !== nextProps[key]) {
@@ -95,6 +96,17 @@ class SearchResults extends Component {
       }, this.props.slideshowInterval * 1000);
       this.setState({ slideshowTimer: timerId });
     }
+  }
+  handlePreviewExit() {
+    this.setState(state => {
+      if (state.slideshowTimer) {
+        clearInterval(state.slideshowTimer);
+        state.slideshowTimer = null;
+      }
+
+      state.modalPreview = null;
+      return state;
+    })
   }
   fetchPosts(props) {
     let login = props.login;
@@ -227,7 +239,7 @@ class SearchResults extends Component {
 
       modalPreviewEl =
         <Modal className="search-results-modal-preview"
-          onExitClick={() => this.setState({ modalPreview: null })}>
+          onExitClick={this.handlePreviewExit}>
           <Image alt={danbo.resumeTagString(post)}
             src={post.complete_large_proxy_url} />
           <Button className="slideshow-toggle" type="button"

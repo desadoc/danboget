@@ -60,6 +60,7 @@ class App extends Component {
 
     let login = fromStorage.login || '';
     let apikey = fromStorage.apikey || '';
+    let slideshowInterval = fromStorage.slideshowInterval || 5;
     let tagAliases = fromStorage.tagAliases;
 
     if (tagAliases.length === 0) {
@@ -70,6 +71,7 @@ class App extends Component {
       settings: {
         login: login,
         apikey: apikey,
+        slideshowInterval : slideshowInterval,
         tagAliases: tagAliases
       }
     });
