@@ -6,6 +6,7 @@ import Image  from './components/Image';
 import Button  from './components/Button';
 import Modal  from './components/Modal';
 
+import ImageResult from './ImageResult';
 import SearchNav from './SearchNav';
 
 let danbo = require('./lib/danbooru');
@@ -205,20 +206,9 @@ class SearchResults extends Component {
         };
 
         postsEls.push(
-          <div key={post.id}
-            className={CN("search-results-item", statusClasses)}>
-            <a target="_blank" href={post.complete_post_url}>
-              <div className="search-results-item-image">
-                <Image alt={danbo.resumeTagString(post)}
-                  src={post.complete_preview_url} />
-              </div>
-            </a>
-            <Button className="search-results-item-details" type="button"
-              dataKey={{groupIndex: i, postIndex: j}}
-              onClick={this.handleDetailsClick}>
-              <i className="fa fa-search-plus fa-1" aria-hidden="true"></i>
-            </Button>
-          </div>
+          <ImageResult post={post} className={CN(statusClasses)}
+            onDetailsClick={this.handleDetailsClick}
+            dataKey={{groupIndex: i, postIndex: j}} />
         );
       }
 
