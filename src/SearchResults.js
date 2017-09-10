@@ -36,6 +36,7 @@ class SearchResults extends Component {
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
     this.handleSlideshowClick = this.handleSlideshowClick.bind(this);
     this.handlePreviewExit = this.handlePreviewExit.bind(this);
+    this.handleRefreshClick = this.handleRefreshClick.bind(this);
   }
   componentDidMount() {
     this.fetchPosts(this.props);
@@ -108,6 +109,9 @@ class SearchResults extends Component {
       return state;
     })
   }
+  handleRefreshClick() {
+    this.fetchPosts(this.props);
+  }
   fetchPosts(props) {
     let login = props.login;
     let apikey = props.apikey;
@@ -142,9 +146,8 @@ class SearchResults extends Component {
       );
     }
 
-    if (this.reqPromise) {
-      this.reqPromise.cancel();
-      this.reqPromise = undefined;
+    if (this.state.reqPromise) {
+      this.state.reqPromise.cancel();
     }
 
     let promise = danbo.posts({
@@ -157,21 +160,27 @@ class SearchResults extends Component {
       offset: page * limit
     })
 
-    promise.then(res => {
+    promise.then(res =>
       this.setState({
-        results: res
-      }, () => { this.reqPromise = undefined; });
-    });
+        results: res,
+        reqPromise: undefined
+      })
+    );
 
     promise.catch(err => {
       console.log(err);
-    }, () => { this.reqPromise = undefined; });
+      this.setState({
+        reqPromise: undefined
+      });
+    });
 
-    this.reqPromise = promise;
+    this.setState({
+      reqPromise: promise
+    });
   }
   componentWillUnmount() {
-    if (this.reqPromise)
-      this.reqPromise.cancel();
+    if (this.state.reqPromise)
+      this.state.reqPromise.cancel();
   }
   render() {
     let resultsEls = [];
@@ -252,6 +261,12 @@ class SearchResults extends Component {
     return (
       <div className={CN("search-results", this.props.className)}>
         <div className="search-results-wrapper">
+          {
+            this.state.reqPromise != null &&
+            <div className="search-results-busy-overlay">
+              Fetching...
+            </div>
+          }
           { resultsEls }
           {
             resultsEls.length > 0 &&
@@ -259,6 +274,7 @@ class SearchResults extends Component {
               onPreviousPageClick={this.props.onPreviousPageClick}
               onGoExactPageClick={this.props.onGoExactPageClick}
               onNextPageClick={this.props.onNextPageClick}
+              onRefreshClick={this.handleRefreshClick}
             />
           }
         </div>

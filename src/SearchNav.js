@@ -33,15 +33,22 @@ class SearchNav extends Component {
   render() {
     return (
       <div className="search-nav">
-        <Button className="search-nav-item" onClick={this.props.onPreviousPageClick}>
+        <Button className="search-nav-item"
+          onClick={this.props.onPreviousPageClick}>
           <i className="fa fa-angle-left" aria-hidden="true"></i>
         </Button>
         <Form className="search-nav-item" onSubmit={this.handlePageSubmit}>
           <Input name="page" dataKey="page" type="number"
             value={this.state.page} onChange={this.handleChange} />
         </Form>
-        <Button className="search-nav-item" onClick={this.handlePageSubmit}>go</Button>
-        <Button className="search-nav-item" onClick={this.props.onNextPageClick}>
+        <Button className="search-nav-item" onClick={this.handlePageSubmit}>
+          go
+        </Button>
+        <Button className="search-nav-item" onClick={this.props.onRefreshClick}>
+          <i className="fa fa-refresh" aria-hidden="true"></i>
+        </Button>
+        <Button className="search-nav-item"
+          onClick={this.props.onNextPageClick}>
           <i className="fa fa-angle-right" aria-hidden="true"></i>
         </Button>
       </div>
