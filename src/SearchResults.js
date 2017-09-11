@@ -5,68 +5,23 @@ import CN from 'classnames';
 import Image  from './components/Image';
 import Button  from './components/Button';
 import Modal  from './components/Modal';
-import AlertContainer from './components/AlertContainer';
 
 import ImageResult from './ImageResult';
 import SearchNav from './SearchNav';
 
 let danbo = require('./lib/danbooru');
 
-function expandAliases(query, aliasesMap) {
-  let queryTags = query.split(' ');
-  for (let i=0; i<queryTags.length; i++) {
-    let queryTag = queryTags[i];
-    let definition = aliasesMap[queryTag];
-    if (definition != null) {
-      queryTags[i] = definition;
-    }
-  }
-  return queryTags.reduce(function(a, b) {
-    if (a) return a + ' ' + b;
-    return b;
-  }, '');
-}
-
 class SearchResults extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      results: []
-    }
-
-    AlertContainer.init(this);
+      modalPreview: null
+    };
 
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
     this.handleSlideshowClick = this.handleSlideshowClick.bind(this);
     this.handlePreviewExit = this.handlePreviewExit.bind(this);
-    this.handleRefreshClick = this.handleRefreshClick.bind(this);
-  }
-  componentDidMount() {
-    this.fetchPosts(this.props);
-  }
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ' + JSON.stringify(nextProps));
-    let fetch = false;
-
-    for (let key in nextProps) {
-      if (!nextProps.hasOwnProperty(key))
-        continue;
-
-      if (key === "slideshowInterval")
-        continue;
-
-      if (this.props[key] !== nextProps[key]) {
-        fetch = true;
-        break;
-      }
-    }
-
-    if (!fetch) return;
-
-    this.setState({
-      modalPreview: null
-    }, () => this.fetchPosts(nextProps));
   }
   handleDetailsClick(params) {
     this.setState({
@@ -84,11 +39,11 @@ class SearchResults extends Component {
           let groupIndex = state.modalPreview.groupIndex;
 
           postIndex++;
-          if (postIndex >= state.results[groupIndex].posts.length) {
+          if (postIndex >= this.props.results[groupIndex].posts.length) {
             postIndex = 0;
             groupIndex++;
 
-            if (groupIndex >= state.results.length) {
+            if (groupIndex >= this.props.results.length) {
               clearInterval(this.state.slideshowTimer);
               state.modalPreview = null;
               state.slideshowTimer = null;
@@ -114,89 +69,9 @@ class SearchResults extends Component {
       return state;
     })
   }
-  handleRefreshClick() {
-    this.fetchPosts(this.props);
-  }
-  fetchPosts(props) {
-    AlertContainer.clear(this);
-
-    let login = props.login;
-    let apikey = props.apikey;
-    let tagAliases = props.tagAliases;
-    let query = props.query;
-    let extra = props.extra;
-    let filters = props.filters;
-    let limit = props.limit;
-    let page = props.page;
-
-    if (query == null) {
-      this.setState({
-        results: []
-      });
-      return;
-    }
-
-    let queries = query.match(/[^\r\n]+/g);
-    if (queries == null) {
-      queries = [''];
-    }
-
-    let tagAliasesMap = {};
-    for (let i=0; i<tagAliases.length; i++) {
-      tagAliasesMap[tagAliases[i].name] = tagAliases[i].tags;
-    }
-
-    let solvedQueries = [];
-    for (let i=0; i<queries.length; i++) {
-      solvedQueries.push(
-        expandAliases(queries[i], tagAliasesMap)
-      );
-    }
-
-    if (this.state.reqPromise) {
-      this.state.reqPromise.cancel();
-    }
-
-    let promise = danbo.posts({
-      login: login,
-      apikey: apikey,
-      queries: solvedQueries,
-      extra: expandAliases(extra, tagAliasesMap),
-      filters: expandAliases(filters, tagAliasesMap),
-      quantity: limit,
-      offset: page * limit
-    })
-
-    promise.then(res =>
-      this.setState({
-        results: res,
-        reqPromise: undefined
-      })
-    );
-
-    promise.catch(err => {
-      console.log(err);
-      AlertContainer.addMessage(this, {
-        text: 'An error occurred while retrieving the posts.',
-        type: 'error'
-      });
-      this.setState({
-        results: [],
-        reqPromise: undefined
-      });
-    });
-
-    this.setState({
-      reqPromise: promise
-    });
-  }
-  componentWillUnmount() {
-    if (this.state.reqPromise)
-      this.state.reqPromise.cancel();
-  }
   render() {
     let resultsEls = [];
-    let results = this.state.results;
+    let results = this.props.results;
 
     for (let i=0; i<results.length; i++) {
       let result = results[i];
@@ -245,7 +120,7 @@ class SearchResults extends Component {
     if (this.state.modalPreview) {
       const groupIndex = this.state.modalPreview.groupIndex;
       const postIndex = this.state.modalPreview.postIndex;
-      const post = this.state.results[groupIndex].posts[postIndex];
+      const post = this.props.results[groupIndex].posts[postIndex];
 
       modalPreviewEl =
         <Modal className="search-results-modal-preview"
@@ -261,10 +136,9 @@ class SearchResults extends Component {
 
     return (
       <div className={CN("search-results", this.props.className)}>
-        { AlertContainer.present(this) }
         <div className="search-results-wrapper">
           {
-            this.state.reqPromise != null &&
+            this.props.isFetching &&
             <div className="search-results-busy-overlay">
               Fetching...
             </div>
@@ -276,7 +150,6 @@ class SearchResults extends Component {
               onPreviousPageClick={this.props.onPreviousPageClick}
               onGoExactPageClick={this.props.onGoExactPageClick}
               onNextPageClick={this.props.onNextPageClick}
-              onRefreshClick={this.handleRefreshClick}
             />
           }
         </div>

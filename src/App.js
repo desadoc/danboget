@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import './style/App.css';
 import CN from 'classnames';
 
-import SideBar       from './SideBar';
-import SearchResults from './SearchResults';
-import SearchForm    from './SearchForm';
-import Settings      from './Settings';
+import SideBar        from './SideBar';
+import SearchResults  from './SearchResults';
+import SearchForm     from './SearchForm';
+import Settings       from './Settings';
+import AlertContainer from './components/AlertContainer';
 
 import utils from './lib/utils';
+let danbo = require('./lib/danbooru');
 
 let defaultAliases = [
   {
@@ -21,6 +23,21 @@ let defaultAliases = [
   }
 ];
 
+function expandAliases(query, aliasesMap) {
+  let queryTags = query.split(' ');
+  for (let i=0; i<queryTags.length; i++) {
+    let queryTag = queryTags[i];
+    let definition = aliasesMap[queryTag];
+    if (definition != null) {
+      queryTags[i] = definition;
+    }
+  }
+  return queryTags.reduce(function(a, b) {
+    if (a) return a + ' ' + b;
+    return b;
+  }, '');
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -33,8 +50,11 @@ class App extends Component {
         tagAliases: []
       },
       search: this.getSearchParams(props.location.search),
+      results: [],
       sideBarStatus: ''
     };
+
+    AlertContainer.init(this);
 
     this.localStorage = window.localStorage;
 
@@ -48,7 +68,7 @@ class App extends Component {
   componentWillReceiveProps(props) {
     this.setState({
       search: this.getSearchParams(props.location.search)
-    });
+    }, () => this.fetchPosts());
   }
   componentDidMount() {
     let values = this.localStorage.getItem("settings");
@@ -74,6 +94,79 @@ class App extends Component {
         slideshowInterval : slideshowInterval,
         tagAliases: tagAliases
       }
+    });
+  }
+  fetchPosts() {
+    AlertContainer.clear(this);
+
+    let login = this.state.settings.login;
+    let apikey = this.state.settings.apikey;
+    let tagAliases = this.state.settings.tagAliases;
+    let query = this.state.search.query;
+    let extra = this.state.search.extra;
+    let filters = this.state.search.filters;
+    let limit = this.state.search.limit;
+    let page = this.state.search.page;
+
+    if (query == null) {
+      this.setState({
+        results: []
+      });
+      return;
+    }
+
+    let queries = query.match(/[^\r\n]+/g);
+    if (queries == null) {
+      queries = [''];
+    }
+
+    let tagAliasesMap = {};
+    for (let i=0; i<tagAliases.length; i++) {
+      tagAliasesMap[tagAliases[i].name] = tagAliases[i].tags;
+    }
+
+    let solvedQueries = [];
+    for (let i=0; i<queries.length; i++) {
+      solvedQueries.push(
+        expandAliases(queries[i], tagAliasesMap)
+      );
+    }
+
+    if (this.state.reqPromise) {
+      this.state.reqPromise.cancel();
+    }
+
+    let promise = danbo.posts({
+      login: login,
+      apikey: apikey,
+      queries: solvedQueries,
+      extra: expandAliases(extra, tagAliasesMap),
+      filters: expandAliases(filters, tagAliasesMap),
+      quantity: limit,
+      offset: page * limit
+    })
+
+    promise.then(res =>
+      this.setState({
+        results: res,
+        reqPromise: undefined
+      })
+    );
+
+    promise.catch(err => {
+      console.log(err);
+      AlertContainer.addMessage(this, {
+        text: 'An error occurred while retrieving the posts.',
+        type: 'error'
+      });
+      this.setState({
+        results: [],
+        reqPromise: undefined
+      });
+    });
+
+    this.setState({
+      reqPromise: promise
     });
   }
   getSearchParams(queryString) {
@@ -132,6 +225,7 @@ class App extends Component {
     this.navigateToPage(this.state.search.page+1);
   }
   handleSideBarChange(selection) {
+    AlertContainer.clear(this);
     this.setState({ sideBarStatus: selection });
   }
   render() {
@@ -148,11 +242,15 @@ class App extends Component {
     return (
       <div className="app">
         <div className={CN("root-container", squeezeAppRight)}>
-          <SideBar pages={{
-            search: SearchFormWProps, settings: SettingsWProps
-          }} onChange={this.handleSideBarChange} />
-          <SearchResults
-            {...this.state.settings} {...this.state.search}
+          <SideBar
+            alerts={AlertContainer.present(this)}
+            pages={{
+              search: SearchFormWProps, settings: SettingsWProps
+            }} onChange={this.handleSideBarChange} />
+          <SearchResults results={this.state.results}
+            page={this.state.search.page}
+            slideshowInterval={this.state.settings.slideshowInterval}
+            isFetching={this.state.reqPromise != null}
             onPreviousPageClick={this.handlePreviousPageClick}
             onGoExactPageClick={this.handleGoExactPageClick}
             onNextPageClick={this.handleNextPageClick} />

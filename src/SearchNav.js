@@ -44,9 +44,6 @@ class SearchNav extends Component {
         <Button className="search-nav-item" onClick={this.handlePageSubmit}>
           go
         </Button>
-        <Button className="search-nav-item" onClick={this.props.onRefreshClick}>
-          <i className="fa fa-refresh" aria-hidden="true"></i>
-        </Button>
         <Button className="search-nav-item"
           onClick={this.props.onNextPageClick}>
           <i className="fa fa-angle-right" aria-hidden="true"></i>

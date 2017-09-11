@@ -36,6 +36,7 @@ class SideBar extends Component {
           DanboGet
         </div>
         <div className="side-bar-page">
+          { this.props.alerts }
           {this.state.selection === "search" && <SearchForm />}
           {this.state.selection === "settings" && <SettingsForm />}
         </div>
