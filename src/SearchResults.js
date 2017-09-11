@@ -92,7 +92,7 @@ class SearchResults extends Component {
         };
 
         postsEls.push(
-          <ImageResult post={post} className={CN(statusClasses)}
+          <ImageResult key={post.id} post={post} className={CN(statusClasses)}
             onDetailsClick={this.handleDetailsClick}
             dataKey={{groupIndex: i, postIndex: j}} />
         );

@@ -28,7 +28,7 @@ class ImageResult extends Component {
     let post = this.props.post;
 
     return (
-      <div key={post.id} onMouseEnter={this.handleMouseEnter}
+      <div onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         className={CN("search-results-item", this.props.className)}>
         <a target="_blank" href={post.complete_post_url}>

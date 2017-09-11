@@ -93,8 +93,9 @@ class App extends Component {
         apikey: apikey,
         slideshowInterval : slideshowInterval,
         tagAliases: tagAliases
-      }
-    });
+      },
+      search: this.getSearchParams(this.props.location.search)
+    }, () => this.fetchPosts());
   }
   fetchPosts() {
     AlertContainer.clear(this);
@@ -192,7 +193,7 @@ class App extends Component {
     let queryStr = utils.stringifyQueryParams({query, extra, filters, limit, page});
 
     this.props.history.push(
-      "/?" + queryStr
+      "/search?" + queryStr
     );
   }
   navigateToPage(pageNumber) {
