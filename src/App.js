@@ -154,9 +154,8 @@ class App extends Component {
     );
 
     promise.catch(err => {
-      console.log(err);
       AlertContainer.addMessage(this, {
-        text: 'An error occurred while retrieving the posts.',
+        text: 'Error: ' + err.response.data.message,
         type: 'error'
       });
       this.setState({
