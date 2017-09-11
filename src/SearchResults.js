@@ -5,6 +5,7 @@ import CN from 'classnames';
 import Image  from './components/Image';
 import Button  from './components/Button';
 import Modal  from './components/Modal';
+import AlertContainer from './components/AlertContainer';
 
 import ImageResult from './ImageResult';
 import SearchNav from './SearchNav';
@@ -34,6 +35,8 @@ class SearchResults extends Component {
       results: []
     }
 
+    AlertContainer.init(this);
+
     this.handleDetailsClick = this.handleDetailsClick.bind(this);
     this.handleSlideshowClick = this.handleSlideshowClick.bind(this);
     this.handlePreviewExit = this.handlePreviewExit.bind(this);
@@ -43,6 +46,7 @@ class SearchResults extends Component {
     this.fetchPosts(this.props);
   }
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps: ' + JSON.stringify(nextProps));
     let fetch = false;
 
     for (let key in nextProps) {
@@ -114,6 +118,8 @@ class SearchResults extends Component {
     this.fetchPosts(this.props);
   }
   fetchPosts(props) {
+    AlertContainer.clear(this);
+
     let login = props.login;
     let apikey = props.apikey;
     let tagAliases = props.tagAliases;
@@ -170,7 +176,12 @@ class SearchResults extends Component {
 
     promise.catch(err => {
       console.log(err);
+      AlertContainer.addMessage(this, {
+        text: 'An error occurred while retrieving the posts.',
+        type: 'error'
+      });
       this.setState({
+        results: [],
         reqPromise: undefined
       });
     });
@@ -250,6 +261,7 @@ class SearchResults extends Component {
 
     return (
       <div className={CN("search-results", this.props.className)}>
+        { AlertContainer.present(this) }
         <div className="search-results-wrapper">
           {
             this.state.reqPromise != null &&

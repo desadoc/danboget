@@ -14,6 +14,11 @@ class AlertContainer extends Component {
   static init(self) {
     self.state._alerts = [];
   }
+  static clear(self) {
+    self.setState({
+      _alerts: []
+    });
+  }
   static addMessage(self, msg) {
     const _msg = {
       id: utils.createId(),
@@ -49,8 +54,10 @@ class AlertContainer extends Component {
       }
     );
   }
-  static present(self) {
-    return <AlertContainer parent={self} messages={self.state._alerts} />;
+  static present(self, props) {
+    return (
+      <AlertContainer parent={self} messages={self.state._alerts} {...props}/>
+    );
   }
   render() {
     const messages = this.props.messages;

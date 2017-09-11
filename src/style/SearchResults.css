@@ -1,6 +1,9 @@
 .search-results {
   height: 100%;
   overflow-y: auto; }
+  .search-results .alert {
+    width: 50%;
+    margin: 0 auto; }
 
 .search-results-busy-overlay {
   position: absolute;
