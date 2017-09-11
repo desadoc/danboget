@@ -6,6 +6,7 @@
   left: 0;
   height: 100%;
   color: white;
+  background-color: #a0bfdb;
   transition-property: left;
   transition-timing-function: ease-in-out;
   transition-duration: 0.2s; }
@@ -27,6 +28,7 @@
 
 .side-bar-menu {
   display: inline-block;
+  width: 8%;
   height: 100%; }
 
 .side-bar-menu-item {
