@@ -8,8 +8,15 @@
 
 .root-container
   position: relative
-  width: 100%
+  width: calc(100% - #{$side_bar_menu_width})
   height: 100%
-  &.squeezed-right
-    width: 100% - $side_bar_width
-    left: $side_bar_width
+  @media screen and (min-width: 1280px)
+    left: $side_bar_menu_width
+    &.squeezed-right
+      width: 100% - $side_bar_width
+      left: $side_bar_width
+  @media screen and (max-width: 1280px)
+    left: $side_bar_menu_width
+    &.squeezed-right
+      width: calc(100% - #{$side_bar_min_width})
+      left: $side_bar_min_width

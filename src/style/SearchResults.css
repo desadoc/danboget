@@ -1,6 +1,7 @@
 .search-results {
   height: 100%;
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
   .search-results .alert {
     width: 50%;
     margin: 0 auto; }
@@ -22,7 +23,8 @@
 .search-results-wrapper {
   padding: 1em 0;
   margin: 0 auto;
-  width: 960px; }
+  width: 70%;
+  min-width: 200px; }
 
 .search-results-group {
   border: 2px solid #f4f4f4;
@@ -32,7 +34,8 @@
 
 .search-results-container {
   display: flex;
-  flex-flow: wrap; }
+  flex-flow: wrap;
+  justify-content: space-around; }
   .search-results-container.empty {
     color: #d6d6d6;
     padding: 0.5em 0;
@@ -43,7 +46,8 @@
   text-align: center; }
 
 .search-results-modal-preview .image {
-  max-height: 100%; }
+  max-height: 100%;
+  max-width: 100%; }
 
 .slideshow-toggle {
   position: absolute;

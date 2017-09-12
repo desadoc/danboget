@@ -4,6 +4,7 @@
 .search-results
   height: 100%
   overflow-y: auto
+  overflow-x: hidden
   .alert
     width: 50%
     margin: 0 auto
@@ -25,7 +26,8 @@
 .search-results-wrapper
   padding: 1em 0
   margin: 0 auto
-  width: 960px
+  width: 70%
+  min-width: 200px
 
 .search-results-group
   border: 2px solid $default_grey
@@ -36,6 +38,7 @@
 .search-results-container
   display: flex
   flex-flow: wrap
+  justify-content: space-around
   &.empty
     color: $highlight_grey
     padding: 0.5em 0
@@ -47,6 +50,7 @@
 
 .search-results-modal-preview .image
   max-height: 100%
+  max-width: 100%
 
 .slideshow-toggle
   position: absolute

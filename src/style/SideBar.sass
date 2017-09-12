@@ -5,6 +5,8 @@
   position: fixed
   z-index: 10
   width: $side_bar_width
+  @media screen and (max-width: 1280px)
+    width: $side_bar_min_width
   top: 0
   left: 0
   height: 100%
@@ -14,17 +16,20 @@
   transition-timing-function: ease-in-out
   transition-duration: 0.2s
   &.hidden
-    left: $side_bar_width/-100% * $side_bar_page_width
+    left: calc(-#{$side_bar_width} + #{$side_bar_menu_width})
+    @media screen and (max-width: 1280px)
+      left: calc(-#{$side_bar_min_width} + #{$side_bar_menu_width})
 
 .side-bar-title
   width: $side_bar_page_width
   height: 8%
-  font-size: 2em
   font-family: 'Passion One'
   color: white
-  padding: 0.75em 0 0.75em 1em
+  padding: 1.25em 0 1.25em 1em
   border-bottom: 1px solid $highlight_grey
   background-color: $dark_grey
+  h1
+    font-size: 2em
 
 .side-bar button
   color: white
@@ -37,7 +42,7 @@
 .side-bar-menu-item
   display: block
   width: 100%
-  font-size: 1.8em
+  font-size: 1.5em
   padding: 0.5em 0.25em
   margin-bottom: 0.25em
   color: $highlight_blue !important
