@@ -1,9 +1,25 @@
 
 // Grid
 
-$main_container_width: 50%
-$side_bar_width: 30%
-$side_bar_min_width: 384px
+$media_breakpoint1: 960px
+$media_breakpoint2: 540px
+
+@mixin desktop
+  @media (min-width: $media_breakpoint1)
+    @content
+
+@mixin tablet
+  @media (max-width: $media_breakpoint1) and (min-width: $media_breakpoint2)
+    @content
+
+@mixin mobile
+  @media (max-width: $media_breakpoint2)
+    @content
+
+$side_bar_large_width: 33.3%
+$side_bar_medium_width: 320px
+$side_bar_small_width: 90%
+
 $side_bar_menu_width: 2.5em
 $side_bar_page_width: calc(100% - #{$side_bar_menu_width})
 

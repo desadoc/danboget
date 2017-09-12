@@ -26,14 +26,19 @@
 .search-results-wrapper
   padding: 1em 0
   margin: 0 auto
-  width: 70%
+  @include desktop
+    width: 70%
+  @include tablet
+    width: 80%
+  @include mobile
+    width: 90%
   min-width: 200px
 
 .search-results-group
   border: 2px solid $default_grey
   border-radius: 5px
   margin-bottom: 1em
-  padding: 0.5em
+  padding: 0.25em
 
 .search-results-container
   display: flex

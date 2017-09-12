@@ -147,12 +147,20 @@ class App extends Component {
       offset: page * limit
     })
 
-    promise.then(res =>
+    promise.then(res => {
+      let postCount = 0;
+      for (let i=0; i<res.length; i++) {
+        postCount += res[i].posts.length;
+      }
+      AlertContainer.addMessage(this, {
+        text: `Retrieved ${postCount} posts as the first page.`,
+        type: 'success'
+      });
       this.setState({
         results: res,
         reqPromise: undefined
-      })
-    );
+      });
+    });
 
     promise.catch(err => {
       AlertContainer.addMessage(this, {

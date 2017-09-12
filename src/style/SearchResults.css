@@ -23,14 +23,22 @@
 .search-results-wrapper {
   padding: 1em 0;
   margin: 0 auto;
-  width: 70%;
   min-width: 200px; }
+  @media (min-width: 960px) {
+    .search-results-wrapper {
+      width: 70%; } }
+  @media (max-width: 960px) and (min-width: 540px) {
+    .search-results-wrapper {
+      width: 80%; } }
+  @media (max-width: 540px) {
+    .search-results-wrapper {
+      width: 90%; } }
 
 .search-results-group {
   border: 2px solid #f4f4f4;
   border-radius: 5px;
   margin-bottom: 1em;
-  padding: 0.5em; }
+  padding: 0.25em; }
 
 .search-results-container {
   display: flex;

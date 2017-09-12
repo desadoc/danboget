@@ -4,9 +4,12 @@
 .side-bar
   position: fixed
   z-index: 10
-  width: $side_bar_width
-  @media screen and (max-width: 1280px)
-    width: $side_bar_min_width
+  @include desktop
+    width: $side_bar_large_width
+  @include tablet
+    width: $side_bar_medium_width
+  @include mobile
+    width: $side_bar_small_width
   top: 0
   left: 0
   height: 100%
@@ -16,9 +19,12 @@
   transition-timing-function: ease-in-out
   transition-duration: 0.2s
   &.hidden
-    left: calc(-#{$side_bar_width} + #{$side_bar_menu_width})
-    @media screen and (max-width: 1280px)
-      left: calc(-#{$side_bar_min_width} + #{$side_bar_menu_width})
+    @include desktop
+      left: calc(-#{$side_bar_large_width} + #{$side_bar_menu_width})
+    @include tablet
+      left: calc(-#{$side_bar_medium_width} + #{$side_bar_menu_width})
+    @include mobile
+      left: calc(-#{$side_bar_small_width} + #{$side_bar_menu_width})
 
 .side-bar-title
   width: $side_bar_page_width
