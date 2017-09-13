@@ -140,7 +140,8 @@ class SearchResults extends Component {
           {
             this.props.isFetching &&
             <div className="search-results-busy-overlay">
-              Fetching...
+              <Image className="loading-icon"
+                src="assets/loading.png" />
             </div>
           }
           { resultsEls }

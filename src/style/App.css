@@ -18,5 +18,5 @@
       left: 320px; } }
   @media (max-width: 540px) {
     .root-container.squeezed-right {
-      width: 50%;
-      left: 50%; } }
+      width: 100%;
+      left: 0; } }
