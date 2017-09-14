@@ -2,9 +2,6 @@
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden; }
-  .search-results .alert {
-    width: 50%;
-    margin: 0 auto; }
 
 @keyframes rotation {
   0% {
