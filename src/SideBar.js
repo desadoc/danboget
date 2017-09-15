@@ -3,6 +3,7 @@ import './style/SideBar.css';
 import CN from 'classnames';
 
 import Button from './components/Button';
+import Image  from './components/Image';
 
 class SideBar extends Component {
   constructor(props) {
@@ -18,6 +19,17 @@ class SideBar extends Component {
     if (this.state.selection === itemName) {
       this.props.onChange('');
       this.setState({ selection: ''});
+      return;
+    }
+
+    if (itemName === 'results') {
+      if (this.state.selection) {
+        this.props.onChange('');
+        this.setState({ selection: ''});
+      } else {
+        this.props.onChange('search');
+        this.setState({ selection: 'search'});
+      }
       return;
     }
 
@@ -46,15 +58,28 @@ class SideBar extends Component {
               "side-bar-menu-item", "first-item",
               this.state.selection === "search" && "selected"
             )}
-            type="button" onClick={() => this.handleMenuItemClick("search")}>
+            type="button" onClick={() => this.handleMenuItemClick('search')}>
             <i className="fa fa-search fa-2" aria-hidden="true"></i>
           </Button>
           <Button className={CN(
               "side-bar-menu-item",
               this.state.selection === "settings" && "selected"
             )}
-            type="button" onClick={() => this.handleMenuItemClick("settings")}>
+            type="button" onClick={() => this.handleMenuItemClick('settings')}>
             <i className="fa fa-cog fa-2" aria-hidden="true"></i>
+          </Button>
+          <Button className={CN(
+              "side-bar-menu-item",
+              ( this.state.selection &&
+                this.props.postsCount &&
+                !this.props.isFetching) ? 'highlighted' : null
+            )} type="button"
+            onClick={() => this.handleMenuItemClick('results')}>
+            {
+              this.props.isFetching ?
+              <Image className="loading-icon" src="assets/loading.png" /> :
+              this.props.postsCount
+            }
           </Button>
         </div>
       </div>

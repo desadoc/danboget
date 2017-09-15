@@ -148,14 +148,6 @@ class App extends Component {
     })
 
     promise.then(res => {
-      let postCount = 0;
-      for (let i=0; i<res.length; i++) {
-        postCount += res[i].posts.length;
-      }
-      AlertContainer.addMessage(this, {
-        text: `Retrieved ${postCount} posts as the first page.`,
-        type: 'success'
-      });
       this.setState({
         results: res,
         reqPromise: undefined
@@ -247,6 +239,10 @@ class App extends Component {
     const squeezeAppRight =
       this.state.sideBarStatus ? "squeezed-right" : null;
 
+    let postsCount = this.state.results.reduce(function(accum, result) {
+      return accum + result.posts.length;
+    }, 0);
+
     return (
       <div className="search">
         <div className={CN("search-container", squeezeAppRight)}>
@@ -254,7 +250,9 @@ class App extends Component {
             alerts={AlertContainer.present(this)}
             pages={{
               search: SearchFormWProps, settings: SettingsWProps
-            }} onChange={this.handleSideBarChange} />
+            }} onChange={this.handleSideBarChange}
+            postsCount={postsCount} isFetching={this.state.reqPromise != null}
+            />
           <SearchResults results={this.state.results}
             page={this.state.search.page}
             slideshowInterval={this.state.settings.slideshowInterval}

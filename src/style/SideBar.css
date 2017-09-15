@@ -17,7 +17,7 @@
       width: 320px; } }
   @media (max-width: 540px) {
     .side-bar {
-      width: 90%; } }
+      width: 100%; } }
   @media (min-width: 960px) {
     .side-bar.hidden {
       left: calc(-33.3% + 2.5em); } }
@@ -26,7 +26,7 @@
       left: calc(-320px + 2.5em); } }
   @media (max-width: 540px) {
     .side-bar.hidden {
-      left: calc(-90% + 2.5em); } }
+      left: calc(-100% + 2.5em); } }
 
 .side-bar-title {
   width: calc(100% - 2.5em);
@@ -63,6 +63,11 @@
   .side-bar-menu-item.selected {
     color: white !important;
     background-color: #3b5b77 !important; }
+  .side-bar-menu-item.highlighted {
+    color: white !important;
+    background-color: #ffae2d !important;
+    border-radius: 4px !important;
+    font-weight: bold; }
 
 .side-bar-page {
   display: inline-block;

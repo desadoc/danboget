@@ -6,29 +6,6 @@
   overflow-y: auto
   overflow-x: hidden
 
-@keyframes rotation
-  0%
-    transform: rotate(180deg)
-  33%
-    transform: rotate(60deg)
-  66%
-    transform: rotate(-60deg)
-  100%
-    transform: rotate(-180deg)
-
-.search-results .loading-icon
-  animation-name: rotation
-  animation-duration: 0.5s
-  animation-timing-function: linear
-  animation-iteration-count: infinite
-  animation-direction: normal
-  width: 1em
-  height: 1em
-  position: absolute
-  top: calc(50% - 1em)
-  @include mobile
-    right: 0
-
 .search-results-busy-overlay
   position: absolute
   height: 100%
@@ -46,7 +23,7 @@
   padding: 1em 0
   margin: 0 auto
   @include desktop
-    width: 70%
+    width: 90%
   @include tablet
     width: 95%
   @include mobile
@@ -80,3 +57,7 @@
   position: absolute
   right: 0
   bottom: 0
+
+.search-results .loading-icon
+  position: absolute
+  top: calc(50% - 1em)
