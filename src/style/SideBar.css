@@ -67,7 +67,10 @@
     color: white !important;
     background-color: #ffae2d !important;
     border-radius: 4px !important;
-    font-weight: bold; }
+    font-weight: bold;
+    transition-property: background-color;
+    transition-timing-function: ease-in;
+    transition-duration: 0.5s; }
 
 .side-bar-page {
   display: inline-block;

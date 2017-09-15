@@ -10,22 +10,40 @@ class SideBar extends Component {
     super(props);
 
     this.state = {
-      selection: ''
+      selection: '',
+      hilightPostCount: false
     };
 
     this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.isFetching && nextProps.isFetching) {
+      setTimeout(() => this.setState({ highlightPostCount: false }));
+      return;
+    }
+
+    if (this.props.isFetching && !nextProps.isFetching) {
+      setTimeout(() => this.setState({ highlightPostCount: true }));
+      setTimeout(() => this.setState({ highlightPostCount: false }), 6000);
+    }
+  }
   handleMenuItemClick(itemName) {
     if (this.state.selection === itemName) {
       this.props.onChange('');
-      this.setState({ selection: ''});
+      this.setState({
+        selection: '',
+        highlightPostCount: false
+      });
       return;
     }
 
     if (itemName === 'results') {
       if (this.state.selection) {
         this.props.onChange('');
-        this.setState({ selection: ''});
+        this.setState({
+          selection: '',
+          highlightPostCount: false
+        });
       } else {
         this.props.onChange('search');
         this.setState({ selection: 'search'});
@@ -70,9 +88,7 @@ class SideBar extends Component {
           </Button>
           <Button className={CN(
               "side-bar-menu-item",
-              ( this.state.selection &&
-                this.props.postsCount &&
-                !this.props.isFetching) ? 'highlighted' : null
+              this.state.highlightPostCount ? 'highlighted' : null
             )} type="button"
             onClick={() => this.handleMenuItemClick('results')}>
             {
