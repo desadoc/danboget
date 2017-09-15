@@ -5,6 +5,7 @@ import Form     from './components/Form';
 import Input    from './components/Input';
 import Label    from './components/Label';
 import Button   from './components/Button';
+import Tooltip   from './components/Tooltip';
 import AlertContainer from './components/AlertContainer';
 
 import utils from './lib/utils';
@@ -174,13 +175,25 @@ class Settings extends Component {
       );
     }
 
+    const tooltips = {
+      credentials:
+        "You may obtain these values from \"My Account\" on danbooru.",
+      slideshowInterval:
+        "Time (in seconds) before advancing to the next post.",
+      tagAliases:
+        "These user defined tags will be expanded into their definitions " +
+        "before the queries are sent to danbooru."
+    }
+
     return (
       <Form onSubmit={this.handleSubmit}>
         <div className="settings">
           {AlertContainer.present(this)}
 
           <div className="form-section">
-            <div className="form-section-title">Credentials</div>
+            <div className="form-section-title">
+              Credentials <Tooltip text={tooltips.credentials} />
+            </div>
 
             <div className="form-row">
               <div className="input-group">
@@ -207,7 +220,7 @@ class Settings extends Component {
             <div className="form-row">
               <div className="input-group slideshow-interval">
                 <Label htmlFor={this.state.slideshowInterval.id}>
-                  Slideshow Interval:
+                  Slideshow Interval <Tooltip text={tooltips.slideshowInterval} />:
                 </Label>
                 <Input id={this.state.slideshowInterval.id} type="number"
                   name="slideshowInterval" dataKey="slideshowInterval"
@@ -218,7 +231,9 @@ class Settings extends Component {
           </div>
 
           <div className="form-section">
-            <div className="form-section-title">Tag Aliases</div>
+            <div className="form-section-title">
+              Tag Aliases <Tooltip text={tooltips.tagAliases} />
+            </div>
 
             {tagAliasesEls}
 
