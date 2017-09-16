@@ -68,7 +68,7 @@ class AlertContainer extends Component {
       alerts.push(
         <div key={msg.id} className={CN("alert", msg.type)}>
           <Button className="dismiss-button" dataKey={msg}
-            type="button" onClick={this.handleDismissClick}>
+            onClick={this.handleDismissClick}>
             <i className="fa fa-times fa-1" aria-hidden="true"></i>
           </Button>
           {msg.text}

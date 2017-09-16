@@ -6,7 +6,7 @@ import Input    from './components/Input';
 import TextArea from './components/TextArea';
 import Label    from './components/Label';
 import Button   from './components/Button';
-import Tooltip   from './components/Tooltip';
+import Tooltip  from './components/Tooltip';
 
 import utils from './lib/utils';
 
@@ -62,61 +62,62 @@ class SearchForm extends Component {
   render() {
     const tooltips = {
       queries:
-        "You can do multiple queries at once. Enter one query per line.",
+        'You can do multiple queries at once. Enter one query per line.',
       extra:
-        "Tags entered here are added to each query.",
+        'Tags entered here are added to each query.',
       limit:
-        "Maximum number of posts that will be retrieved for each query",
+        'Maximum number of posts that will be retrieved for each query',
       filters:
-        "These tags will be used to filter posts received from danbooru, " +
-        "and they are applied locally, i.e. they do not count towards the " +
-        "tag count limit that danbooru imposes. Example: \"*girls rating:s " +
-        "-long_hair ~blue_hair ~green_hair touhou\""
+        'These tags will be used to filter posts received from danbooru, ' +
+        'and they are applied locally, i.e. they do not count towards the ' +
+        'tag count limit that danbooru imposes. Example: "*girls rating:s ' +
+        '-long_hair ~blue_hair ~green_hair touhou"'
     };
 
     return (
-      <Form className="search-form" onSubmit={this.handleSubmit}>
-        <div className="form-section">
-          <div className="form-section-title">Search</div>
-          <div className="form-row">
-            <div className="input-group search-form-query">
+      <Form className='search-form' onSubmit={this.handleSubmit}>
+        <div className='form-section'>
+          <div className='form-section-title'>Search</div>
+          <div className='form-row'>
+            <div className='input-group search-form-query'>
               <Label htmlFor={this.state.query.id}>
                 Queries <Tooltip text={tooltips.queries} />:
               </Label>
               <TextArea id={this.state.query.id}
-                name="query" rows="10" onChange={this.handleChange}
-                dataKey="query" value={this.state.query.value} />
+                name='query' rows='10' onChange={this.handleChange}
+                dataKey='query' value={this.state.query.value} />
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="input-group search-form-extra">
+          <div className='form-row'>
+            <div className='input-group search-form-extra'>
               <Label htmlFor={this.state.extra.id}>
                 Extra  <Tooltip text={tooltips.extra} />:
               </Label>
-              <Input type="text" name="extra" dataKey="extra"
+              <Input type='text' name='extra' dataKey='extra'
                 value={this.state.extra.value} onChange={this.handleChange} />
             </div>
-            <div className="input-group search-form-limit">
+            <div className='input-group search-form-limit'>
               <Label htmlFor={this.state.limit.id}>
                 Limit <Tooltip text={tooltips.limit} />:
               </Label>
-              <Input type="number" name="limit" dataKey="limit"
+              <Input type='number' name='limit' dataKey='limit'
                 value={this.state.limit.value} onChange={this.handleChange} />
             </div>
 
           </div>
 
-          <div className="form-row">
-            <div className="input-group search-form-filters">
+          <div className='form-row'>
+            <div className='input-group search-form-filters'>
               <Label htmlFor={this.state.filters.id}>
                 Filters <Tooltip text={tooltips.filters} />:
               </Label>
-              <Input type="text" name="filters" dataKey="filters"
-                value={this.state.filters.value} onChange={this.handleChange} />
+              <Input type='text' name='filters' dataKey='filters'
+                value={this.state.filters.value}
+                onChange={this.handleChange} />
             </div>
-            <div className="input-group search-form-submit-btn">
-              <Button type="submit">Search</Button>
+            <div className='input-group search-form-submit-btn'>
+              <Button type='submit'>Search</Button>
             </div>
           </div>
         </div>

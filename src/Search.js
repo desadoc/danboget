@@ -9,7 +9,7 @@ import Settings       from './Settings';
 import AlertContainer from './components/AlertContainer';
 
 import utils from './lib/utils';
-let danbo = require('./lib/danbooru');
+import danbooru from './lib/danbooru';
 
 let defaultAliases = [
   {
@@ -18,8 +18,8 @@ let defaultAliases = [
   },
   {
     name: 'super_safe',
-    tags: 'rating:s -ass -bikini -bra -breasts -legs -midriff -nude ' +
-          '-panties -pantyhose -swimsuit -thighhighs'
+    tags: 'rating:s -ass -breasts -panties -bra -bikini -legs -midriff ' +
+          '-nude -pantyhose'
   }
 ];
 
@@ -137,7 +137,7 @@ class App extends Component {
       this.state.reqPromise.cancel();
     }
 
-    let promise = danbo.posts({
+    let promise = danbooru.posts({
       login: login,
       apikey: apikey,
       queries: solvedQueries,
@@ -237,15 +237,15 @@ class App extends Component {
         onSubmit={this.handleSettingsSubmit} />;
 
     const squeezeAppRight =
-      this.state.sideBarStatus ? "squeezed-right" : null;
+      this.state.sideBarStatus ? 'squeezed-right' : null;
 
     let postsCount = this.state.results.reduce(function(accum, result) {
       return accum + result.posts.length;
     }, 0);
 
     return (
-      <div className="search">
-        <div className={CN("search-container", squeezeAppRight)}>
+      <div className='search'>
+        <div className={CN('search-container', squeezeAppRight)}>
           <SideBar
             alerts={AlertContainer.present(this)}
             pages={{

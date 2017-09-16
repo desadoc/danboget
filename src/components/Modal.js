@@ -19,13 +19,13 @@ class Modal extends Component {
   }
   render() {
     return (
-      <div className={CN("modal", this.props.className)}>
-        <div className="modal-overlay" onClick={this.handleClick}>
-          <div className="modal-panel">
+      <div className={CN('modal', this.props.className)}>
+        <div className='modal-overlay' onClick={this.handleClick}>
+          <div className='modal-panel'>
             {this.props.children}
-            <Button className="dismiss-button"
-              type="button" onClick={this.props.onExitClick}>
-              <i className="fa fa-times fa-1" aria-hidden="true"></i>
+            <Button className='dismiss-button'
+              onClick={this.props.onExitClick}>
+              <i className='fa fa-times fa-1' aria-hidden='true'></i>
             </Button>
           </div>
         </div>

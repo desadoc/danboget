@@ -4,8 +4,8 @@ import './style/Tooltip.css';
 class Tooltip extends Component {
   render() {
     return (
-      <span className="tooltip" title={this.props.text}>
-        <i className="fa fa-question-circle-o fa-1" aria-hidden="true"></i>
+      <span className='tooltip' title={this.props.text}>
+        <i className='fa fa-question-circle-o fa-1' aria-hidden='true'></i>
       </span>
     );
   }

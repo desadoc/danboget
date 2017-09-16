@@ -5,7 +5,7 @@ import CN from 'classnames';
 import Image from './components/Image';
 import Button from './components/Button';
 
-import danbo from './lib/danbooru';
+import danbooru from './lib/danbooru';
 
 class ImageResult extends Component {
   constructor(props) {
@@ -30,18 +30,17 @@ class ImageResult extends Component {
     return (
       <div onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className={CN("search-results-item", this.props.className)}>
-        <a target="_blank" href={post.complete_post_url}>
-          <div className="search-results-item-image">
-            <Image alt={danbo.resumeTagString(post)}
+        className={CN('search-results-item', this.props.className)}>
+        <a target='_blank' href={post.complete_post_url}>
+          <div className='search-results-item-image'>
+            <Image alt={danbooru.resumeTagString(post)}
               src={post.complete_preview_url} />
           </div>
         </a>
         { this.state.mouseOver &&
-          <Button className="search-results-item-details" type="button"
-            dataKey={this.props.dataKey}
-            onClick={this.props.onDetailsClick}>
-            <i className="fa fa-search-plus fa-1" aria-hidden="true"></i>
+          <Button className='search-results-item-details'
+            dataKey={this.props.dataKey} onClick={this.props.onDetailsClick}>
+            <i className='fa fa-search-plus fa-1' aria-hidden='true'></i>
           </Button>
         }
       </div>

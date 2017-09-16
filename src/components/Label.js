@@ -4,7 +4,8 @@ import CN from 'classnames';
 
 function Label(props) {
   return (
-    <label className={CN("input-label", props.className)} htmlFor={props.htmlFor}>
+    <label className={CN('input-label', props.className)}
+      htmlFor={props.htmlFor}>
       {props.children}
     </label>
   );

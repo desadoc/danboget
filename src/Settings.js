@@ -92,12 +92,11 @@ class Settings extends Component {
       if (!name || !tags) {
         AlertContainer.addMessage(
           this, {
-            text: "Tag Aliases names and definitions can't be empty.",
-            type: "error",
+            text: 'Tag Aliases names and definitions can\'t be empty.',
+            type: 'error',
             duration: 3000
           }
         );
-
         return;
       }
 
@@ -145,30 +144,30 @@ class Settings extends Component {
   render() {
     let submitBtnClass = null;
     if (!this.state.dirty)
-      submitBtnClass = "button-ok";
+      submitBtnClass = 'button-ok';
 
     let tagAliasesEls = [];
 
     for (let i=0; i<this.state.tagAliases.length; i++) {
       tagAliasesEls.push(
-        <div key={i} className="form-row">
-          <div className="input-group settings-tagaliases-name">
+        <div key={i} className='form-row'>
+          <div className='input-group settings-tagaliases-name'>
             <Label htmlFor={this.state.tagAliases[i].name.id}>Name:</Label>
             <Input id={this.state.tagAliases[i].name.id}
-              type="text" dataKey={{f: "name", i: i}}
+              type='text' dataKey={{f: 'name', i: i}}
               value={this.state.tagAliases[i].name.value}
               onChange={this.handleTagAliasChange} />
           </div>
-          <div className="input-group settings-tagaliases-tags">
+          <div className='input-group settings-tagaliases-tags'>
             <Label htmlFor={this.state.tagAliases[i].tags.id}>Tags:</Label>
             <Input id={this.state.tagAliases[i].tags.id}
-              type="text" dataKey={{f: "tags", i: i}}
+              type='text' dataKey={{f: 'tags', i: i}}
               value={this.state.tagAliases[i].tags.value}
               onChange={this.handleTagAliasChange} />
           </div>
-          <div className="input-group settings-tagaliases-remove-btn">
-            <Button type="button" dataKey={i} onClick={this.handleTagAliasRemove}>
-              <i className="fa fa-trash-o" aria-hidden="true"></i>
+          <div className='input-group settings-tagaliases-remove-btn'>
+            <Button dataKey={i} onClick={this.handleTagAliasRemove}>
+              <i className='fa fa-trash-o' aria-hidden='true'></i>
             </Button>
           </div>
         </div>
@@ -177,80 +176,80 @@ class Settings extends Component {
 
     const tooltips = {
       credentials:
-        "You may obtain these values from \"My Account\" on danbooru.",
+        'You may obtain these values from "My Account" on danbooru.',
       slideshowInterval:
-        "Time (in seconds) before advancing to the next post.",
+        'Time (in seconds) before advancing to the next post.',
       tagAliases:
-        "These user defined tags will be expanded into their definitions " +
-        "before the queries are sent to danbooru."
+        'These user defined tags will be expanded into their definitions ' +
+        'before the queries are sent to danbooru.'
     }
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div className="settings">
+        <div className='settings'>
           {AlertContainer.present(this)}
 
-          <div className="form-section">
-            <div className="form-section-title">
+          <div className='form-section'>
+            <div className='form-section-title'>
               Credentials <Tooltip text={tooltips.credentials} />
             </div>
 
-            <div className="form-row">
-              <div className="input-group">
+            <div className='form-row'>
+              <div className='input-group'>
                 <Label htmlFor={this.state.login.id}>Login:</Label>
                 <Input id={this.state.login.id}
-                  type="text" name="login" dataKey="login"
+                  type='text' name='login' dataKey='login'
                   value={this.state.login.value} onChange={this.handleChange} />
               </div>
             </div>
 
-            <div className="form-row">
-              <div className="input-group">
+            <div className='form-row'>
+              <div className='input-group'>
                 <Label htmlFor={this.state.apikey.id}>Apikey:</Label>
                 <Input id={this.state.apikey.id}
-                  type="text" name="apikey"  dataKey="apikey"
+                  type='text' name='apikey'  dataKey='apikey'
                   value={this.state.apikey.value} onChange={this.handleChange} />
               </div>
             </div>
           </div>
 
-          <div className="form-section">
-            <div className="form-section-title">Misc</div>
+          <div className='form-section'>
+            <div className='form-section-title'>Misc</div>
 
-            <div className="form-row">
-              <div className="input-group slideshow-interval">
+            <div className='form-row'>
+              <div className='input-group slideshow-interval'>
                 <Label htmlFor={this.state.slideshowInterval.id}>
                   Slideshow Interval <Tooltip text={tooltips.slideshowInterval} />:
                 </Label>
-                <Input id={this.state.slideshowInterval.id} type="number"
-                  name="slideshowInterval" dataKey="slideshowInterval"
+                <Input id={this.state.slideshowInterval.id} type='number'
+                  name='slideshowInterval' dataKey='slideshowInterval'
                   value={this.state.slideshowInterval.value}
                   onChange={this.handleChange} />
               </div>
             </div>
           </div>
 
-          <div className="form-section">
-            <div className="form-section-title">
+          <div className='form-section'>
+            <div className='form-section-title'>
               Tag Aliases <Tooltip text={tooltips.tagAliases} />
             </div>
 
             {tagAliasesEls}
 
-            <div className="form-row">
-              <div className="input-group">
-                <Button type="button" onClick={this.handleTagAliasAdd}>
-                  <i className="fa fa-plus" aria-hidden="true"></i>
+            <div className='form-row'>
+              <div className='input-group'>
+                <Button onClick={this.handleTagAliasAdd}>
+                  <i className='fa fa-plus' aria-hidden='true'></i>
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="form-section">
-            <div className="form-row">
-              <div className="input-group">
-                <Button className={submitBtnClass} type="submit">
-                  {this.state.dirty ? "Save" : "Saved!"}
+          <div className='form-section'>
+            <div className='form-row'>
+              <div className='input-group'>
+                <Button className={submitBtnClass} type='submit'>
+                  {this.state.dirty ? 'Save' : 'Saved!'}
                 </Button>
               </div>
             </div>

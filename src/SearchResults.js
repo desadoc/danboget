@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import './style/SearchResults.css';
 import CN from 'classnames';
 
-import Image  from './components/Image';
-import Button  from './components/Button';
-import Modal  from './components/Modal';
+import ImageResult  from './ImageResult';
+import SearchNav    from './SearchNav';
+import Image        from './components/Image';
+import Button       from './components/Button';
+import Modal        from './components/Modal';
 
-import ImageResult from './ImageResult';
-import SearchNav from './SearchNav';
-
-let danbo = require('./lib/danbooru');
+import danbooru from './lib/danbooru';
 
 class SearchResults extends Component {
   constructor(props) {
@@ -125,9 +124,9 @@ class SearchResults extends Component {
       modalPreviewEl =
         <Modal className="search-results-modal-preview"
           onExitClick={this.handlePreviewExit}>
-          <Image alt={danbo.resumeTagString(post)}
+          <Image alt={danbooru.resumeTagString(post)}
             src={post.complete_large_proxy_url} />
-          <Button className="slideshow-toggle" type="button"
+          <Button className="slideshow-toggle"
             onClick={this.handleSlideshowClick}>
             {this.state.slideshowTimer ? "Stop Slideshow" : "Start Slideshow"}
           </Button>
@@ -135,13 +134,12 @@ class SearchResults extends Component {
     }
 
     return (
-      <div className={CN("search-results", this.props.className)}>
-        <div className="search-results-wrapper">
+      <div className={CN('search-results', this.props.className)}>
+        <div className='search-results-wrapper'>
           {
             this.props.isFetching &&
-            <div className="search-results-busy-overlay">
-              <Image className="loading-icon"
-                src="assets/loading.png" />
+            <div className='search-results-busy-overlay'>
+              <Image className='loading-icon' src='assets/loading.png' />
             </div>
           }
           { resultsEls }

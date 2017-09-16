@@ -15,13 +15,9 @@ class Input extends Component {
   render() {
     return (
       <input
-        id={this.props.id}
-        className={CN("input", this.props.className)}
-        type={this.props.type}
-        name={this.props.name}
-        value={this.props.value}
-        onChange={this.handleChange}
-      />
+        id={this.props.id} className={CN('input', this.props.className)}
+        type={this.props.type} name={this.props.name} value={this.props.value}
+        onChange={this.handleChange} />
     );
   }
 }

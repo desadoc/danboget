@@ -15,13 +15,9 @@ class TextArea extends Component {
   render() {
     return (
       <textarea
-        id={this.props.id}
-        className={CN("text-area", this.props.className)}
-        name={this.props.name}
-        onChange={this.handleChange}
-        value={this.props.value}
-        rows={this.props.rows}
-      />
+        id={this.props.id} className={CN('text-area', this.props.className)}
+        name={this.props.name} onChange={this.handleChange}
+        value={this.props.value} rows={this.props.rows} />
     );
   }
 }

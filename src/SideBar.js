@@ -76,20 +76,20 @@ class SideBar extends Component {
               "side-bar-menu-item", "first-item",
               this.state.selection === "search" && "selected"
             )}
-            type="button" onClick={() => this.handleMenuItemClick('search')}>
+            onClick={() => this.handleMenuItemClick('search')}>
             <i className="fa fa-search fa-2" aria-hidden="true"></i>
           </Button>
           <Button className={CN(
               "side-bar-menu-item",
               this.state.selection === "settings" && "selected"
             )}
-            type="button" onClick={() => this.handleMenuItemClick('settings')}>
+            onClick={() => this.handleMenuItemClick('settings')}>
             <i className="fa fa-cog fa-2" aria-hidden="true"></i>
           </Button>
           <Button className={CN(
               "side-bar-menu-item",
               this.state.highlightPostCount ? 'highlighted' : null
-            )} type="button"
+            )}
             onClick={() => this.handleMenuItemClick('results')}>
             {
               this.props.isFetching ?
