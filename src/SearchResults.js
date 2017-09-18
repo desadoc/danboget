@@ -5,6 +5,7 @@ import CN from 'classnames';
 import ImageResult  from './ImageResult';
 import SearchNav    from './SearchNav';
 import Image        from './components/Image';
+import Video        from './components/Video';
 import Button       from './components/Button';
 import Modal        from './components/Modal';
 
@@ -121,11 +122,19 @@ class SearchResults extends Component {
       const postIndex = this.state.modalPreview.postIndex;
       const post = this.props.results[groupIndex].posts[postIndex];
 
+      let isVideo =
+        post.tag_string_general.includes('ugoira') ||
+        post.tag_string_general.includes('webm');
+
       modalPreviewEl =
         <Modal className="search-results-modal-preview"
           onExitClick={this.handlePreviewExit}>
-          <Image alt={danbooru.resumeTagString(post)}
-            src={post.complete_large_proxy_url} />
+          {
+            isVideo ?
+            <Video src={post.complete_large_proxy_url} /> :
+            <Image alt={danbooru.resumeTagString(post)}
+              src={post.complete_large_proxy_url} />
+          }
           <Button className="slideshow-toggle"
             onClick={this.handleSlideshowClick}>
             {this.state.slideshowTimer ? "Stop Slideshow" : "Start Slideshow"}
