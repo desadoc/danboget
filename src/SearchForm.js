@@ -75,7 +75,8 @@ class SearchForm extends Component {
     };
 
     return (
-      <Form className='search-form' onSubmit={this.handleSubmit}>
+      <Form className='search-form' disabled={this.props.disabled}
+        onSubmit={this.handleSubmit}>
         <div className='form-section'>
           <div className='form-section-title'>Search</div>
           <div className='form-row'>

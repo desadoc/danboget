@@ -18,7 +18,9 @@ class Form extends Component {
       <form className={CN("form", this.props.className)}
         action="#" onSubmit={this.handleSubmit}
       >
-        {this.props.children}
+        <fieldset disabled={this.props.disabled}>
+          {this.props.children}
+        </fieldset>
       </form>
     );
   }

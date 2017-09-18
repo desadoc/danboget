@@ -241,8 +241,10 @@ class Search extends Component {
     this.setState({ sideBarStatus: selection });
   }
   render() {
+    const isFetching = this.state.reqPromise != null;
+
     const SearchFormWProps = (props) =>
-      <SearchForm {...this.state.search}
+      <SearchForm {...this.state.search} disabled={isFetching}
         onSubmit={this.handleSearchSubmit}/>;
     const SettingsWProps = (props) =>
       <Settings {...this.state.settings}
@@ -265,7 +267,7 @@ class Search extends Component {
             }}
             sideBarStatus={this.state.sideBarStatus}
             onChange={this.handleSideBarChange}
-            postCount={postCount} isFetching={this.state.reqPromise != null}
+            postCount={postCount} isFetching={isFetching}
             />
           <SearchResults results={this.state.results}
             page={this.state.search.page}
