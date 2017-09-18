@@ -20,14 +20,16 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "make-production":
+      "mkdir -p production/public && cp -r build/* production/public && cp backend/app.js production/ && cp -r backend/node_modules production/"
   },
   "proxy": {
     "/api": {
       "target": {
         "host": "localhost",
         "protocol": "http:",
-        "port": 3001
+        "port": 8080
       }
     }
   }

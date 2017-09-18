@@ -87,7 +87,7 @@ class SideBar extends Component {
             <i className="fa fa-cog fa-2" aria-hidden="true"></i>
           </Button>
           <Button className={CN(
-              "side-bar-menu-item",
+              "side-bar-menu-item result-count",
               this.state.highlightPostCount ? 'highlighted' : null
             )}
             onClick={() => this.handleMenuItemClick('results')}>

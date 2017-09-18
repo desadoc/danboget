@@ -8,7 +8,7 @@ import SearchForm     from './SearchForm';
 import Settings       from './Settings';
 import AlertContainer from './components/AlertContainer';
 
-import utils from './lib/utils';
+import utils    from './lib/utils';
 import danbooru from './lib/danbooru';
 
 let defaultAliases = [
@@ -19,7 +19,7 @@ let defaultAliases = [
   {
     name: 'super_safe',
     tags: 'rating:s -ass -breasts -panties -bra -bikini -legs -midriff ' +
-          '-nude -pantyhose'
+          '-pantyhose score:>=5'
   }
 ];
 
@@ -38,7 +38,7 @@ function expandAliases(query, aliasesMap) {
   }, '');
 }
 
-class App extends Component {
+class Search extends Component {
   constructor(props) {
     super(props);
 
@@ -71,12 +71,15 @@ class App extends Component {
     }, () => this.fetchPosts());
   }
   componentDidMount() {
-    let values = this.localStorage.getItem("settings");
-    if (!values) {
-      return;
+    let settingsString = this.localStorage.getItem("settings");
+    let fromStorage = null;
+    if (settingsString) {
+      fromStorage = JSON.parse(settingsString);
+    } else {
+      fromStorage = {
+        tagAliases: []
+      };
     }
-
-    let fromStorage = JSON.parse(values);
 
     let login = fromStorage.login || '';
     let apikey = fromStorage.apikey || '';
@@ -85,15 +88,24 @@ class App extends Component {
 
     if (tagAliases.length === 0) {
       tagAliases = defaultAliases;
+      this.setState({
+        settings: {
+          tagAliases: tagAliases
+        }
+      })
     }
 
+    let settings = {
+      login: login,
+      apikey: apikey,
+      slideshowInterval : slideshowInterval,
+      tagAliases: tagAliases
+    };
+
+    this.localStorage.setItem("settings", JSON.stringify(settings));
+
     this.setState({
-      settings: {
-        login: login,
-        apikey: apikey,
-        slideshowInterval : slideshowInterval,
-        tagAliases: tagAliases
-      },
+      settings: settings,
       search: this.getSearchParams(this.props.location.search)
     }, () => this.fetchPosts());
   }
@@ -266,4 +278,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Search;

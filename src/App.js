@@ -4,6 +4,9 @@ import './style/App.css';
 
 import Search from './Search';
 
+const startingQuery = '/search?' +
+  'limit=100&query=rating%3As+score:>%3D5&filters=super_safe';
+
 class App extends Component {
   render() {
     return (
@@ -11,7 +14,7 @@ class App extends Component {
         <div className='app'>
           <Route exact path='/' render={(props) => <Redirect to='/welcome' />} />
           <Route exact path='/welcome' render={
-            (props) => <Redirect to='/search?limit=100&filters=super_safe' />
+            (props) => <Redirect to={startingQuery} />
           } />
           <Route exact path='/search' component={Search} />
         </div>
