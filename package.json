@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "make-production": "rm -rf production && mkdir -p production/public && cp -r build/* production/public && cp backend/app.js production/ && cp -r backend/node_modules production/"
+    "make-production": "rm -rf production && mkdir -p production/public && cp -r build/* production/public && cp app/*.js production/ && cp app/package.json production/ && cp -r app/node_modules production/"
   },
   "proxy": {
     "/api": {

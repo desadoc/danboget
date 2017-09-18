@@ -1,0 +1,17 @@
+{
+  "name": "danboget-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "desadoc@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "request": "^2.81.0",
+    "electron": "^1.7.6"
+  },
+  "scripts": {
+    "start-express": "node app.js",
+    "start-electron": "electron electron-main.js"
+  }
+}
