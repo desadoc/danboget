@@ -251,7 +251,7 @@ class Search extends Component {
     const squeezeAppRight =
       this.state.sideBarStatus ? 'squeezed-right' : null;
 
-    let postsCount = this.state.results.reduce(function(accum, result) {
+    let postCount = this.state.results.reduce(function(accum, result) {
       return accum + result.posts.length;
     }, 0);
 
@@ -262,8 +262,10 @@ class Search extends Component {
             alerts={AlertContainer.present(this)}
             pages={{
               search: SearchFormWProps, settings: SettingsWProps
-            }} onChange={this.handleSideBarChange}
-            postsCount={postsCount} isFetching={this.state.reqPromise != null}
+            }}
+            sideBarStatus={this.state.sideBarStatus}
+            onChange={this.handleSideBarChange}
+            postCount={postCount} isFetching={this.state.reqPromise != null}
             />
           <SearchResults results={this.state.results}
             page={this.state.search.page}

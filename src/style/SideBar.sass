@@ -40,39 +40,6 @@
 .side-bar button
   color: white
 
-.side-bar-menu
-  display: inline-block
-  width: $side_bar_menu_width
-  height: 100%
-
-.side-bar-menu-item
-  display: block
-  width: 100%
-  font-size: 1.5em
-  padding: 0.5em 0.25em
-  margin-bottom: 0.25em
-  overflow: hidden
-  color: $highlight_blue !important
-  border: 0 !important
-  border-top-right-radius: 4px !important
-  border-bottom-right-radius: 4px !important
-  background-color: $default_blue !important
-  &.first-item
-    margin-top: 3em
-  &.selected
-    color: white !important
-    background-color: $side_bar_background_color !important
-  &.highlighted
-    color: white !important
-    background-color: #ffae2d !important
-    border-radius: 4px !important
-    font-weight: bold
-    transition-property: background-color
-    transition-timing-function: ease-in
-    transition-duration: 0.5s
-  &.result-count
-    font-size: 1em !important
-
 .side-bar-page
   display: inline-block
   width: $side_bar_page_width
