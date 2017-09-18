@@ -246,6 +246,29 @@ function applySpecialFilterTag(post, filterTag) {
 		return false;
 	}
 
+	if (filterTag.match(
+			/^status:(all|any|active|flagged|pending|deleted|banned)$/)) {
+		let criteria = filterTag.substring(filterTag.indexOf(':') + 1);
+		if (criteria === 'any' || criteria === 'all') {
+			return true;
+		}
+		if (criteria === 'flagged') {
+			return post.is_flagged;
+		}
+		if (criteria === 'pending') {
+			return post.is_pending;
+		}
+		if (criteria === 'deleted') {
+			return post.is_deleted;
+		}
+		if (criteria === 'banned') {
+			return post.is_banned;
+		}
+		if (criteria === 'active') {
+			return !(post.is_banned || post.is_deleted || post.is_pending);
+		}
+	}
+
 	return undefined;
 }
 
