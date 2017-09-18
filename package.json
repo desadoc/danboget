@@ -6,6 +6,7 @@
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "classnames": "^2.2.5",
+    "font-awesome": "^4.7.0",
     "node-sass-chokidar": "^0.0.3",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -21,8 +22,7 @@
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "make-production":
-      "mkdir -p production/public && cp -r build/* production/public && cp backend/app.js production/ && cp -r backend/node_modules production/"
+    "make-production": "mkdir -p production/public && cp -r build/* production/public && cp backend/app.js production/ && cp -r backend/node_modules production/"
   },
   "proxy": {
     "/api": {
