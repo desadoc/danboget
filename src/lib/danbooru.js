@@ -16,9 +16,15 @@ function convertPostEntries(posts) {
 		post.tags_character = post.tag_string_character.split(' ');
 		post.tags_general = post.tag_string_general.split(' ');
 
-		post.complete_large_url = danbooruUrl + post.large_file_url;
-		post.complete_large_proxy_url ='/api/proxy' + post.large_file_url;
-    post.complete_preview_url = danbooruUrl + post.preview_file_url;
+		post.complete_large_url = post.large_file_url || post.file_url;
+
+    if (post.complete_large_url) {
+      post.complete_large_proxy_url = '/api/proxy' + post.complete_large_url.replace(danbooruUrl, '');
+    } else {
+      post.complete_large_proxy_url = '#';
+    }
+
+    post.complete_preview_url = post.preview_file_url;
 
 		var imgWidth = post.image_width
 		var imgHeight = post.image_height
