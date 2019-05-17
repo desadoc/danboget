@@ -24,13 +24,5 @@
     "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "make-production": "rm -rf production && mkdir -p production/public && cp -r build/* production/public && cp app/*.js production/ && cp app/package.json production/ && cp -r app/node_modules production/"
   },
-  "proxy": {
-    "/api": {
-      "target": {
-        "host": "localhost",
-        "protocol": "http:",
-        "port": 8080
-      }
-    }
-  }
+  "proxy": "http://localhost:8080/api"
 }

@@ -19,7 +19,7 @@ function convertPostEntries(posts) {
 		post.complete_large_url = post.large_file_url || post.file_url;
 
     if (post.complete_large_url) {
-      post.complete_large_proxy_url = '/api/proxy' + post.complete_large_url.replace(danbooruUrl, '');
+      post.complete_large_proxy_url = 'http://localhost:8080/api/proxy' + post.complete_large_url.replace(danbooruUrl, '');
     } else {
       post.complete_large_proxy_url = '#';
     }
