@@ -1,8 +1,12 @@
 
 # DanboGet
 
-This project is an alternative frontend for Danbooru. It needs no database,
+An alternative frontend for Danbooru. It needs no database,
 as configuration is stored in browser's localStorage.
+
+![Screenshot 1](screenshots/danboget_1.jpg)
+
+![Screenshot 1](screenshots/danboget_2.jpg)
 
 ### Instructions
 
