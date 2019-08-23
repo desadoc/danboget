@@ -27,22 +27,26 @@ class ImageResult extends Component {
   render() {
     let post = this.props.post;
 
+    const externalLinkBtn = 
+        <Button className='search-results-item-details'
+          onClick={(_, e) => {
+            e.stopPropagation();
+            window.open(post.complete_post_url);
+          }}
+        >
+          <i className='fa fa-external-link fa-1' aria-hidden='true'></i>
+        </Button>;
+
     return (
-      <div onMouseEnter={this.handleMouseEnter}
+      <div onClick={(e) => this.props.onDetailsClick(this.props.dataKey, e)}
+        dataKey={this.props.dataKey}
+        onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        className={CN('search-results-item', this.props.className)}>
-        <a target='_blank' href={post.complete_post_url}>
-          <div className='search-results-item-image'>
-            <Image alt={danbooru.resumeTagString(post)}
+        className={CN('search-results-item', this.props.className)}
+      >
+        <Image alt={danbooru.resumeTagString(post)}
               src={post.complete_preview_url} />
-          </div>
-        </a>
-        { this.state.mouseOver &&
-          <Button className='search-results-item-details'
-            dataKey={this.props.dataKey} onClick={this.props.onDetailsClick}>
-            <i className='fa fa-search-plus fa-1' aria-hidden='true'></i>
-          </Button>
-        }
+        {externalLinkBtn}
       </div>
     );
   }

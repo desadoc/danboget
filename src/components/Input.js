@@ -17,7 +17,7 @@ class Input extends Component {
       <input
         id={this.props.id} className={CN('input', this.props.className)}
         type={this.props.type} name={this.props.name} value={this.props.value}
-        onChange={this.handleChange} />
+        onChange={this.handleChange} style={this.props.style}/>
     );
   }
 }
