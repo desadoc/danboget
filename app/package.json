@@ -10,7 +10,7 @@
     "request": "^2.81.0"
   },
   "devDependencies": {
-    "electron": "^1.7.6"
+    "electron": "^9.1.0"
   },
   "scripts": {
     "start-express": "node app.js",
